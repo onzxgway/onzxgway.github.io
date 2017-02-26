@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-26T10:42:16.000Z</updated>
+  <updated>2017-02-26T13:27:30.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/02/22/iOS%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/02/22/iOS并发编程/</id>
     <published>2017-02-22T10:21:56.000Z</published>
-    <updated>2017-02-26T10:42:16.000Z</updated>
+    <updated>2017-02-26T13:27:30.000Z</updated>
     
     <content type="html"><![CDATA[<p><strong>并发</strong> 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。本文主要讲解四种API的使用方法，优缺点和注意事项。</p>
 <p>在学习并发编程之前，首先我们要知道线程的概念，以及线程的一些相关基础知识，这是学习并发编程的基础。</p>
@@ -95,7 +95,7 @@
 <h2 id="系统提供队列的执行"><a href="#系统提供队列的执行" class="headerlink" title="系统提供队列的执行"></a>系统提供队列的执行</h2><p>系统已经为我们准备好了2个常用队列主队列（全局串行队列）和全局并发队列，开发中用的很多</p>
 <p>【主队列的同步执行】</p>
 <ul>
-<li>不开线程(在当前主线程执行)，会导致死锁。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">dispatch_sync(dispatch_get_main_queue(),^&#123;</div><div class="line">    NSLog(@&quot;%@ -- %d&quot;,[NSThread currentThread],i);</div><div class="line">&#125;);</div><div class="line">注意:当程序执行到这段代码的时候,向主队列中添加了一个任务，此时如果主线程要继续往下执行的话，必须要执行刚添加到主队列中的任务，只有把这个任务执行完毕之后，才可以继续，所以现在要等待调度该任务。而主队列有个特点就是只有主线程不忙的时候，才会去调度主线程执行任务，现在的情况是主线程很忙，所以不会去调度任务，一个等待调度任务执行，一个不让去调度任务，最终导致了死锁。</div></pre></td></tr></table></figure>
+<li>不开线程(在当前主线程执行)，会导致死锁。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">dispatch_sync(dispatch_get_main_queue(),^&#123;</div><div class="line">    NSLog(@&quot;%@ -- %d&quot;,[NSThread currentThread],i);</div><div class="line">&#125;);</div><div class="line">注意:当程序执行到这段代码的时候,向主队列中添加了一个任务，此时如果主线程要继续往下执行的话，</div><div class="line">必须要执行刚添加到主队列中的任务，只有把这个任务执行完毕之后，才可以继续，所以现在要等待调</div><div class="line">度该任务。而主队列有个特点就是只有主线程不忙的时候，才会去调度主线程执行任务，现在的情况是</div><div class="line">主线程很忙，所以不会去调度任务，一个等待调度任务执行，一个不让去调度任务，最终导致了死锁。</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>【主队列的异步执行】</p>
