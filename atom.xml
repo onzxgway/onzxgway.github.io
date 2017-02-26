@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-26T14:08:00.000Z</updated>
+  <updated>2017-02-26T14:24:28.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,9 +20,10 @@
     <link href="http://yoursite.com/2017/02/22/iOS%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/02/22/iOS并发编程/</id>
     <published>2017-02-22T10:21:56.000Z</published>
-    <updated>2017-02-26T14:08:00.000Z</updated>
+    <updated>2017-02-26T14:24:28.000Z</updated>
     
-    <content type="html"><![CDATA[<p><strong>并发</strong> 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。本文主要讲解四种API的使用方法，优缺点和注意事项。</p>
+    <content type="html"><![CDATA[<p><strong>并发</strong> 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。本文以讲解四种API的使用方法为切入点，带你了解多线程的全貌。</p>
+<a id="more"></a>
 <p>在学习并发编程之前，首先我们要知道线程的概念，以及线程的一些相关基础知识，这是学习并发编程的基础。</p>
 <h4 id="一：什么是线程？"><a href="#一：什么是线程？" class="headerlink" title="一：什么是线程？"></a>一：什么是线程？</h4><p><strong>线程（thread）</strong>是进程的基本单位，一个进程包含一个或多个线程（至少包含一个），操作系统的调度器可以直接调度线程。所有的并发编程API都是构建在线程上的。</p>
 <h4 id="二：线程的状态："><a href="#二：线程的状态：" class="headerlink" title="二：线程的状态："></a>二：线程的状态：</h4><p><img src="http://ols16w547.bkt.clouddn.com/Screen%20Shot%202017-02-22%20at%209.04.58%20PM.png" alt="Screen%20Shot%202017-02-22%20at%209.04.58%20PM"></p>
@@ -137,11 +138,15 @@
 </tr>
 </tbody>
 </table>
+<p>&gt;</p>
+<blockquote>
+<p><strong>GCD的其他用法</strong></p>
+</blockquote>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;&lt;strong&gt;并发&lt;/strong&gt; 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,N
+      &lt;p&gt;&lt;strong&gt;并发&lt;/strong&gt; 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。本文以讲解四种API的使用方法为切入点，带你了解多线程的全貌。&lt;/p&gt;
     
     </summary>
     
