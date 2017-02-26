@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-22T13:16:26.000Z</updated>
+  <updated>2017-02-26T03:30:06.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,17 +20,54 @@
     <link href="http://yoursite.com/2017/02/22/iOS%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/02/22/iOS并发编程/</id>
     <published>2017-02-22T10:21:56.000Z</published>
-    <updated>2017-02-22T13:16:26.000Z</updated>
+    <updated>2017-02-26T03:30:06.000Z</updated>
     
-    <content type="html"><![CDATA[<p>并发描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。本文主要讲解四种API的使用方法，优缺点和注意事项。</p>
+    <content type="html"><![CDATA[<p><strong>并发</strong> 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。本文主要讲解四种API的使用方法，优缺点和注意事项。</p>
 <p>在学习并发编程之前，首先我们要知道线程的概念，以及线程的一些相关基础知识，这是学习并发编程的基础。</p>
-<p>一：什么是线程？<br>    线程（thread）是进程的基本单位，一个进程包含一个或多个线程（至少包含一个），操作系统的调度器可以直接调度线程。所有的并发编程API都是构建在线程上的。</p>
-<p>二：线程的状态：<br>    <img src="http://ols16w547.bkt.clouddn.com/Screen%20Shot%202017-02-22%20at%209.04.58%20PM.png" alt="Screen%20Shot%202017-02-22%20at%209.04.58%20PM"></p>
+<h4 id="一：什么是线程？"><a href="#一：什么是线程？" class="headerlink" title="一：什么是线程？"></a>一：什么是线程？</h4><p><strong>线程（thread）</strong>是进程的基本单位，一个进程包含一个或多个线程（至少包含一个），操作系统的调度器可以直接调度线程。所有的并发编程API都是构建在线程上的。</p>
+<h4 id="二：线程的状态："><a href="#二：线程的状态：" class="headerlink" title="二：线程的状态："></a>二：线程的状态：</h4><p><img src="http://ols16w547.bkt.clouddn.com/Screen%20Shot%202017-02-22%20at%209.04.58%20PM.png" alt="Screen%20Shot%202017-02-22%20at%209.04.58%20PM"></p>
+<ul>
+<li><p><strong>新建</strong>：线程对象在内存中被创建出来。</p>
+</li>
+<li><p><strong>就绪</strong>：除了CPU以外的所有资源都已分配好了，等待CPU调度。（已经加入可调度线程池中）</p>
+</li>
+<li><p><strong>运行</strong>：CPU正在运行该线程。（当CPU切换执行其它线程的时候，当前线程退回到就绪状态）</p>
+</li>
+<li><p><strong>阻塞</strong>：除了CPU以外，还有其它资源没有分配，（阻塞状态的线程，被移出了可调度线程池）</p>
+</li>
+<li><p><strong>死亡</strong>：线程被销毁，占用的内存空间被释放。</p>
+</li>
+</ul>
+<h4 id="三：并发编程的四种API介绍"><a href="#三：并发编程的四种API介绍" class="headerlink" title="三：并发编程的四种API介绍"></a>三：并发编程的四种API介绍</h4><p><mark><strong>1，pthread</strong></mark></p>
+<p>pthread(posix线程) 是一套纯C的API，平时几乎不会使用，如果没有兴趣可以不用了解，当然如果想多掌握一些的话，可以继续往下阅读。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">如何使用：</div><div class="line">1，导入头文件 #import &lt;pthread.h&gt;</div><div class="line">2，调用函数 </div><div class="line">int pthread_create(pthread_t * __restrict,pthread_attr_t * __restrict,void *  (*) (void *),void *  __restrict);</div><div class="line"></div><div class="line">/*参数解释</div><div class="line"> 返回值是0 表示创建线程成功 非0表示创建线程失败</div><div class="line"></div><div class="line"> 1,pthread_t * 线程的标示   </div><div class="line"> 2,pthread_attr_t 线程的属性   </div><div class="line"> 3,void* (*) (void *) </div><div class="line">   返回值 函数名 参数   函数签名 void * 约等于OC中的id任意类型</div><div class="line"> 4,void * 给函数的参数    </div><div class="line">*/</div></pre></td></tr></table></figure></p>
+<p><mark><strong>2，NSThread</strong></mark></p>
+<p>NSThread是Objcetive-c基于pthread的封装,封装之后在面向对象的编程环境中，看起来更加的亲切,使用也更加的顺手。一个NSThread对象代表一个线程。</p>
+<p><strong>一 如何使用：</strong></p>
+<p>【类方法】<br>优点：使用简单，线程创建好之后就是就绪(runnable)状态，CPU可直接调度。<br>缺点：无法拿到线程对象本身，不能对线程对象做更详细的设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">+ (void)detachNewThreadWithBlock:(void (^)(void))block;</div><div class="line">+ (void)detachNewThreadSelector:(SEL)selector toTarget:(id)target withObject:(nullable id)argument;</div></pre></td></tr></table></figure></p>
+<p>【对象方法】<br>优点：可以拿到线程对象本身，对线程对象做更详细的设置。比如设置线程优先级，或者设置名称。<br>缺点：线程创建好之后处于新建（new）状态,需要手动调用start方法，进入就绪(runnable)状态，没有类方法简单。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (instancetype)initWithTarget:(id)target selector:(SEL)selector object:(nullable id)argument;</div><div class="line">- (instancetype)initWithBlock:(void (^)(void))block;</div><div class="line">注意：- (instancetype)init方法得到的线程是主线程。</div></pre></td></tr></table></figure></p>
+<p>【隐式创建】<br>优缺点和类方法的优缺点相同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- (void)performSelectorInBackground:(SEL)aSelector withObject:(nullable id)arg</div><div class="line">注意：该方法不是NSThread类的方法，而是NSObject的NSThreadPerformAdditions分类中的方法。</div></pre></td></tr></table></figure></p>
+<p>【自定义线程类】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">第一步：自定义一个线程类，例如ZXGThread,继承自NSThread类</div><div class="line">第二步：在ZXGThread类中，重写继承自父类的main方法，把需要在后台子线程中执行的代码放到main方法中。</div><div class="line">第三步：通过alloc+init方法创建ZXGThread对象，然后调用start方法，即可。</div></pre></td></tr></table></figure></p>
+<p><strong>二 常见属性：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">	//线程优先级，double类型，取值范围是：0.0~1.0，默认是0.5，1.0表示优先级最高，</div><div class="line">	//优先级越高，表示被CPU调度的概率越高。  逐渐被废弃，用qualityOfService替代</div><div class="line">thread.threadPriority</div><div class="line"></div><div class="line">    //线程服务质量约等于线程优先级，枚举值，默认是NSQualityOfServiceDefault=-1,优先级最低。</div><div class="line">    //iOS8之后比threadPriority好用</div><div class="line">thread.qualityOfService;</div><div class="line"></div><div class="line">    //线程的名称,主线程默认名称是main，子线程默认名称为null,</div><div class="line">thread.name;</div><div class="line"></div><div class="line">    //判断当前线程是否是主线程，只读属性</div><div class="line">thread.isMainThread;</div><div class="line"></div><div class="line">    //判断当前线程是否正在执行任务，只读属性</div><div class="line">thread.isExecuting;</div><div class="line"></div><div class="line">    //判断当前线程是否执行结束，只读属性</div><div class="line">thread.isFinished;</div><div class="line"></div><div class="line">    //判断当前线程是否被取消，只读属性</div><div class="line">thread.isCancelled;</div><div class="line"></div><div class="line">    //线程在stack栈上占用的存储空间，通常为512kb，线程释放后，空间收回。</div><div class="line">thread.stackSize;</div></pre></td></tr></table></figure></p>
+<p><strong>三 常用方法：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//阻塞方法</div><div class="line">//休眠到指定的时间</div><div class="line">+ (void)sleepUntilDate:(NSDate *)date;</div><div class="line">//休眠多久</div><div class="line">+ (void)sleepForTimeInterval:(NSTimeInterval)time;</div><div class="line"></div><div class="line">//在调试中经常使用，用来获取当前所在的线程对象的。</div><div class="line">[NSThread currentThread]</div><div class="line">//获取主线程对象</div><div class="line">[NSThread mainThread]</div><div class="line"></div><div class="line">//退出线程</div><div class="line">[NSThread exit];</div><div class="line"></div><div class="line">//如果自定义线程类，把要执行的任务，放在重写的main方法中。</div><div class="line">- (void)main	// thread body method</div></pre></td></tr></table></figure>
+<p><strong><em>直接操作线程对象可能引发一个问题是，如果你的代码和项目中使用到的框架的代码都创建了自己的线程时，那么活动的线程的数量有可能以指数级增长。这在大型项目中是一个常见问题。例如：在8核CPU中，你创建了8个线程来发挥CPU性能。然而在这些线程中调用到的框架代码也做了同样的事情（以为他不知道你创建了这些线程），这样会很快产生成百上千的线程，代码每个部分自身都没有问题，但是最终还是导致了问题。每个线程都会消耗一些内存和内核资源。<br>接下来，我将介绍两个基于队列的并发编程API：GCD和NSOperationQueue,它们是通过管理一个可以协同使用的线程池，来解决上面的问题的。</em></strong></p>
+<p><mark><strong>3，GCD</strong></mark><br><strong><em>GCD(Grand Central Dispatch)是一套底层纯C语言的API,是并发多核的解决方案，其实就是为了让开发者更加容易的使用设备上多核CPU的。</em></strong></p>
+<p><strong><em>GCD会自动管理线程的生命周期，开发者不用直接和线程打交道，只需要向队列中添加任务即可，GCD在后端管理着一个线程池，通过统一的管理，来避免开启过多的线程。</em></strong></p>
+<p>在学习GCD编程之前，首先我们要深刻理解队列和任务的概念，这是基础，也是GCD的核心概念。</p>
+<p>一：队列<br><strong>队列定义：</strong>用来存放任务的，先进先出的（FIFO，First in first out)容器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//队列的类型dispatch_queue_t</div><div class="line">dispatch_queue_t queue;</div></pre></td></tr></table></figure></p>
+<p><strong>队列分类：</strong><br>队列分为两类：串型队列（Serial Dispatch Queue）和并发队列（Concurrent Dispatch Queue），系统提供了一个主队列（特殊的串行队列）和一个全局并发队列（属于并发队列）。</p>
+<p>【串行队列】<br>让内部的任务一个接着一个执行，等待上一个任务执行完毕，才会接着执行下一个任务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//创建一个串行队列</div><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial&quot;, DISPATCH_QUEUE_SERIAL); </div><div class="line">参数解释：</div><div class="line">1，队列的名称。 </div><div class="line">2，队列的类型，是枚举值。DISPATCH_QUEUE_SERIAL表示串行，DISPATCH_QUEUE_CONCURRENT表示并发。</div></pre></td></tr></table></figure>
+<p>【并发队列】<br>让队列内部的多个任务同时执行(并发队列只有在异步执行dispatch_async的时候才有效，底层线程池会提供多个线程同时去执行队列中的任务)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//创建一个并发队列</div><div class="line">dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;concurrent&quot;, DISPATCH_QUEUE_CONCURRENT); </div><div class="line">参数解释：</div><div class="line">1，队列的名称。 作用：可以协助开发调试和崩溃报告分析</div><div class="line">2，队列的类型，是枚举值。DISPATCH_QUEUE_SERIAL表示串行，DISPATCH_QUEUE_CONCURRENT表示并发。</div></pre></td></tr></table></figure>
+<p>【主队列】<br>主队列是特殊的串行队列，由系统提供的，使用的时候只要去获取即可，无需开发者手动创建，主队列中的任务都是由主线程去执行的。</p>
+<p>特点：<br>1，只有在主线程不忙的时候才会去调度主队列里的任务。这是主队列中同步执行导致死锁的原因。<br>2，所有的和UI相关的操作都要放在主线程中处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//获取系统提供的主队列</div><div class="line">dispatch_queue_t mainQueue = dispatch_get_main_queue();</div></pre></td></tr></table></figure></p>
+<p>【全局并发队列】<br>全局并发队列就是并发队列，和并发队列行为相同，使用的时候只要去获取即可，无需开发者手动创建。全局并发队列就是并发队列，和并发队列行为相同，使用的时候只要去获取即可，无需开发者手动创建。全局并发队列就是并发队列，和并发队列行为相同，使用的时候只要去获取即可，无需开发者手动创建。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;并发描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。
+      &lt;p&gt;&lt;strong&gt;并发&lt;/strong&gt; 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,N
     
     </summary>
     
