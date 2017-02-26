@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-26T09:07:21.000Z</updated>
+  <updated>2017-02-26T09:22:29.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/02/22/iOS%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/02/22/iOS并发编程/</id>
     <published>2017-02-22T10:21:56.000Z</published>
-    <updated>2017-02-26T09:07:21.000Z</updated>
+    <updated>2017-02-26T09:22:29.000Z</updated>
     
     <content type="html"><![CDATA[<p><strong>并发</strong> 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。本文主要讲解四种API的使用方法，优缺点和注意事项。</p>
 <p>在学习并发编程之前，首先我们要知道线程的概念，以及线程的一些相关基础知识，这是学习并发编程的基础。</p>
@@ -54,7 +54,7 @@
 <p><mark><strong>3，GCD</strong></mark><br><strong><em>GCD(Grand Central Dispatch)是一套底层纯C语言的API,是并发多核的解决方案，其实就是为了让开发者更加容易的使用设备上多核CPU的。</em></strong></p>
 <p><strong><em>GCD会自动管理线程的生命周期，开发者不用直接和线程打交道，只需要向队列中添加任务即可，GCD在后端管理着一个线程池，通过统一的管理，来避免开启过多的线程。</em></strong></p>
 <p>在学习GCD编程之前，首先我们要深刻理解队列和任务的概念，这是基础，也是GCD的核心概念。</p>
-<p>##一：队列<br><strong>队列定义：</strong>用来存放任务的，先进先出的（FIFO，First in first out)容器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//队列的类型dispatch_queue_t</div><div class="line">dispatch_queue_t queue;</div></pre></td></tr></table></figure></p>
+<h3 id="一：队列"><a href="#一：队列" class="headerlink" title="一：队列"></a>一：队列</h3><p><strong>队列定义：</strong>用来存放任务的，先进先出的（FIFO，First in first out)容器。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//队列的类型dispatch_queue_t</div><div class="line">dispatch_queue_t queue;</div></pre></td></tr></table></figure></p>
 <p><strong>队列分类：</strong><br>队列分为两类：串型队列（Serial Dispatch Queue）和并发队列（Concurrent Dispatch Queue），系统提供了一个主队列（特殊的串行队列）和一个全局并发队列（属于并发队列）。</p>
 <p>【串行队列】<br>让内部的任务一个接着一个执行，等待上一个任务执行完毕，才会接着执行下一个任务。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//创建一个串行队列</div><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial&quot;, DISPATCH_QUEUE_SERIAL); </div><div class="line">参数解释：</div><div class="line">1，队列的名称。 </div><div class="line">2，队列的类型，是枚举值。DISPATCH_QUEUE_SERIAL表示串行，DISPATCH_QUEUE_CONCURRENT表示并发。</div></pre></td></tr></table></figure>
@@ -63,11 +63,11 @@
 <p>【主队列】也叫【全局串行队列】<br>主队列是特殊的串行队列，由系统提供的，使用的时候只要去获取即可，无需开发者手动创建，主队列中的任务都是由主线程去执行的。</p>
 <p>特点：<br>1，如果主线程正在执行代码暂时不调度任务，等主线程执行结束后在调度任务。这是主队列中同步执行导致死锁的原因。<br>2，UI更新的操作都要放在主线程中处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//获取系统提供的主队列</div><div class="line">dispatch_queue_t mainQueue = dispatch_get_main_queue();</div></pre></td></tr></table></figure></p>
 <p>【全局并发队列】<br>全局并发队列就是并发队列，和并发队列行为相同，使用的时候只要去获取即可，无需开发者手动创建。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//获取系统提供的全局并发队列</div><div class="line">dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);</div><div class="line">//参数解释</div><div class="line">1，指定队列的优先级。</div><div class="line">DISPATCH_QUEUE_PRIORITY_HIGH (2)</div><div class="line">DISPATCH_QUEUE_PRIORITY_DEFAULT (0)//自定义队列的优先级都是默认优先级</div><div class="line">DISPATCH_QUEUE_PRIORITY_LOW (-2)</div><div class="line">DISPATCH_QUEUE_PRIORITY_BACKGROUND (INT16_MIN)</div><div class="line">2，作为保留字段备用（一般为0)</div></pre></td></tr></table></figure></p>
-<p>##二：任务<br><strong>任务定义：</strong>放到线程中去执行的代码块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//任务的类型dispatch_block_t</div><div class="line">dispatch_block_t task;//声明一个任务变量。</div><div class="line">注意：dispatch_block_t类型是这么定义的typedef void (^dispatch_block_t)(void); </div><div class="line">由定义可以看出它本质就是一个无参数无返回值的block.</div></pre></td></tr></table></figure></p>
-<p>##三：执行任务的函数<br>执行任务的函数有两个，同步执行（dispatch_sync）和异步执行（dispatch_async）<br><strong><em>核心区别：是否开启子线程，同步不开启子线程在当前线程执行，异步开启子线程。</em></strong><br><strong><em>使用方法：把任务放到队列里dispatch_sync(queue, block) 和dispatch_async(queue, block) </em></strong></p>
+<h3 id="二：任务"><a href="#二：任务" class="headerlink" title="二：任务"></a>二：任务</h3><p><strong>任务定义：</strong>放到线程中去执行的代码块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//任务的类型dispatch_block_t</div><div class="line">dispatch_block_t task;//声明一个任务变量。</div><div class="line">注意：dispatch_block_t类型是这么定义的typedef void (^dispatch_block_t)(void); </div><div class="line">由定义可以看出它本质就是一个无参数无返回值的block.</div></pre></td></tr></table></figure></p>
+<h3 id="三：执行任务的函数"><a href="#三：执行任务的函数" class="headerlink" title="三：执行任务的函数"></a>三：执行任务的函数</h3><p>执行任务的函数有两个，同步执行（dispatch_sync）和异步执行（dispatch_async）<br><strong><em>核心区别：是否开启子线程，同步不开启子线程在当前线程执行，异步开启子线程。</em></strong><br><strong><em>使用方法：把任务放到队列里dispatch_sync(queue, block) 和dispatch_async(queue, block) </em></strong></p>
 <p>【同步】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_sync(dispatch_queue_t queue, dispatch_block_t block);</div><div class="line">queue：队列</div><div class="line">block：任务</div></pre></td></tr></table></figure></p>
 <p>【异步】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_async(dispatch_queue_t queue, dispatch_block_t block);</div><div class="line">queue：队列</div><div class="line">block：任务</div></pre></td></tr></table></figure></p>
-]]></content>
+<h2 id="串型队列的执行"><a href="#串型队列的执行" class="headerlink" title="串型队列的执行"></a>串型队列的执行</h2>]]></content>
     
     <summary type="html">
     
