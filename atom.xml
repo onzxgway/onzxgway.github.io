@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-26T13:48:21.000Z</updated>
+  <updated>2017-02-26T14:08:00.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/02/22/iOS%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/02/22/iOS并发编程/</id>
     <published>2017-02-22T10:21:56.000Z</published>
-    <updated>2017-02-26T13:48:21.000Z</updated>
+    <updated>2017-02-26T14:08:00.000Z</updated>
     
     <content type="html"><![CDATA[<p><strong>并发</strong> 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种API(pthread,NSThread,GCD,NSOperation)用于并发编程。本文主要讲解四种API的使用方法，优缺点和注意事项。</p>
 <p>在学习并发编程之前，首先我们要知道线程的概念，以及线程的一些相关基础知识，这是学习并发编程的基础。</p>
@@ -74,33 +74,33 @@
 </blockquote>
 <h2 id="串型队列的执行"><a href="#串型队列的执行" class="headerlink" title="串型队列的执行"></a>串型队列的执行</h2><p>【串行队列的同步执行】</p>
 <ul>
-<li>同步执行:不开线程(在当前线程)。串行队列:任务一次只能执行一个。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">#define DISPATCH_QUEUE_SERIAL NULL</div><div class="line">//1，创建串行队列</div><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial&quot;, DISPATCH_QUEUE_SERIAL);</div><div class="line">//2,创建一个任务</div><div class="line">dispatch_block_t task = ^&#123;</div><div class="line">     NSLog(@&quot;%@ -- %d&quot;,[NSThread currentThread],i);</div><div class="line">&#125;;</div><div class="line">//3,将任务添加到队列中</div><div class="line">//同步执行</div><div class="line">dispatch_sync(serialQueue,task);</div></pre></td></tr></table></figure>
+<li>同步执行:不开线程(在当前线程)。串行队列:任务一次只能执行一个。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">#define DISPATCH_QUEUE_SERIAL NULL</div><div class="line">//1，创建串行队列</div><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial&quot;, DISPATCH_QUEUE_SERIAL);</div><div class="line">//2,创建一个任务</div><div class="line">dispatch_block_t task = ^&#123;</div><div class="line">     NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line">&#125;;</div><div class="line">//3,将任务添加到队列中</div><div class="line">//同步执行</div><div class="line">dispatch_sync(serialQueue,task);</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>【串行队列的异步执行】</p>
 <ul>
-<li>异步执行:开启一个子线程，任务在子线程执行，为什么只开启一个，因为是串行队列，只有一个线程就可以按顺序执行队列中的所有任务。串行队列:任务一次只能执行一个。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//1，创建串行队列</div><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial&quot;, DISPATCH_QUEUE_SERIAL);</div><div class="line">//2,创建一个任务</div><div class="line">dispatch_block_t task = ^&#123;</div><div class="line">     NSLog(@&quot;%@ -- %d&quot;,[NSThread currentThread],i);</div><div class="line">&#125;;</div><div class="line">//3,将任务添加到队列中</div><div class="line">//异步执行</div><div class="line">dispatch_async(serialQueue,task);</div></pre></td></tr></table></figure>
+<li>异步执行:开启一个子线程，任务在子线程执行，为什么只开启一个，因为是串行队列，只有一个线程就可以按顺序执行队列中的所有任务。串行队列:任务一次只能执行一个。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//1，创建串行队列</div><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial&quot;, DISPATCH_QUEUE_SERIAL);</div><div class="line">//2,创建一个任务</div><div class="line">dispatch_block_t task = ^&#123;</div><div class="line">     NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line">&#125;;</div><div class="line">//3,将任务添加到队列中</div><div class="line">//异步执行</div><div class="line">dispatch_async(serialQueue,task);</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>一般在开发中代码要简写，我上面这么写的目的，是帮助理解。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//1，创建串行队列</div><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial&quot;, DISPATCH_QUEUE_SERIAL);</div><div class="line">//</div><div class="line">//2,异步执行</div><div class="line">dispatch_async(serialQueue, ^&#123;</div><div class="line">    NSLog(@&quot;%@ -- %d&quot;,[NSThread currentThread],i);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>一般在开发中代码要简写，我上面这么写的目的，是帮助理解。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//1，创建串行队列</div><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;serial&quot;, DISPATCH_QUEUE_SERIAL);</div><div class="line">//</div><div class="line">//2,异步执行</div><div class="line">dispatch_async(serialQueue, ^&#123;</div><div class="line">    NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
 <h2 id="并发队列的执行"><a href="#并发队列的执行" class="headerlink" title="并发队列的执行"></a>并发队列的执行</h2><p>【并发队列的同步执行】</p>
 <ul>
 <li>同步执行:不开线程(在当前线程)。并发队列:多个任务可以同时执行。<br>执行情况与串行队列的同步执行一模一样。</li>
 </ul>
 <p>【并发队列的异步执行】</p>
 <ul>
-<li>异步执行:开启多个子线程，任务在子线程执行，具体开启多少个线程是不固定的(线程数，不由我们控制)，线程数是由gcd来决定的。<br>并发队列:多个任务可以同时执行。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//1，创建并发队列</div><div class="line">dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;concurrent&quot;, DISPATCH_QUEUE_CONCURRENT);</div><div class="line">//将任务添加到队列中</div><div class="line">//2,异步执行</div><div class="line">dispatch_async(concurrentQueue,^&#123;</div><div class="line">    NSLog(@&quot;%@ -- %d&quot;,[NSThread currentThread],i);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<li>异步执行:开启多个子线程，任务在子线程执行，具体开启多少个线程是不固定的(线程数，不由我们控制)，线程数是由gcd来决定的。<br>并发队列:多个任务可以同时执行。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//1，创建并发队列</div><div class="line">dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;concurrent&quot;, DISPATCH_QUEUE_CONCURRENT);</div><div class="line">//将任务添加到队列中</div><div class="line">//2,异步执行</div><div class="line">dispatch_async(concurrentQueue,^&#123;</div><div class="line">    NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <h2 id="系统提供队列的执行"><a href="#系统提供队列的执行" class="headerlink" title="系统提供队列的执行"></a>系统提供队列的执行</h2><p>系统已经为我们准备好了2个常用队列主队列（全局串行队列）和全局并发队列，<strong><em>开发中很多都是使用系统提供的队列，不用自己手动创建</em></strong></p>
 <p>【主队列的同步执行】</p>
 <ul>
-<li>不开线程(在当前主线程执行)，会导致死锁。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">dispatch_sync(dispatch_get_main_queue(),^&#123;</div><div class="line">    NSLog(@&quot;%@ -- %d&quot;,[NSThread currentThread],i);</div><div class="line">&#125;);</div><div class="line">注意:当程序执行到这段代码的时候,向主队列中添加了一个任务，此时如果主线程要继续往下执行的话，</div><div class="line">必须要执行刚添加到主队列中的任务，只有把这个任务执行完毕之后，才可以继续，所以现在要等待调</div><div class="line">度该任务。而主队列有个特点就是只有主线程不忙的时候，才会去调度主线程执行任务，现在的情况是</div><div class="line">主线程很忙，所以不会去调度任务，一个等待调度任务执行，一个不让去调度任务，最终导致了死锁。</div></pre></td></tr></table></figure>
+<li>不开线程(在当前主线程执行)，会导致死锁。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">dispatch_sync(dispatch_get_main_queue(),^&#123;</div><div class="line">    NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line">&#125;);</div><div class="line">注意:当程序执行到这段代码的时候,向主队列中添加了一个任务，此时如果主线程要继续往下执行的话，</div><div class="line">必须要执行刚添加到主队列中的任务，只有把这个任务执行完毕之后，才可以继续，所以现在要等待调</div><div class="line">度该任务。而主队列有个特点就是只有主线程不忙的时候，才会去调度主线程执行任务，现在的情况是</div><div class="line">主线程很忙，所以不会去调度任务，一个等待调度任务执行，一个不让去调度任务，最终导致了死锁。</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>【主队列的异步执行】</p>
 <ul>
-<li>不开线程，因为主队列的任务只有主线程可以执行。同步执行任务。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//异步执行</div><div class="line">dispatch_async(dispatch_get_main_queue(),^&#123;</div><div class="line">    NSLog(@&quot;%@ -- %d&quot;,[NSThread currentThread],i);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<li>不开线程，因为主队列的任务只有主线程可以执行。同步执行任务。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//异步执行</div><div class="line">dispatch_async(dispatch_get_main_queue(),^&#123;</div><div class="line">    NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>【全局并发队列的同步执行】</p>
@@ -110,8 +110,33 @@
 </ul>
 <p>【全局并发队列的异步执行】</p>
 <ul>
-<li>执行情况与并发队列的异步执行一模一样。<br>不同的是队列直接获取即可，不用开发者创建。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_async(dispatch_get_global_queue(0, 0),^&#123;</div><div class="line">     NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line"> &#125;);</div></pre></td></tr></table></figure></li>
+<li>执行情况与并发队列的异步执行一模一样。<br>不同的是队列直接获取即可，不用开发者创建。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_async(dispatch_get_global_queue(0, 0),^&#123;</div><div class="line">     NSLog(@&quot;%@&quot;,[NSThread currentThread]);</div><div class="line"> &#125;);</div></pre></td></tr></table></figure>
+</li>
 </ul>
+<h2 id="队列的区别比较表格"><a href="#队列的区别比较表格" class="headerlink" title="队列的区别比较表格"></a>队列的区别比较表格</h2><table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">全局并发队列</th>
+<th style="text-align:center">手动创建串行队列</th>
+<th style="text-align:center">主队列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">同步(sync)</td>
+<td style="text-align:center">没有开启新线程，串行执行任务</td>
+<td style="text-align:center">没有开启新线程，串行执行任务</td>
+<td style="text-align:center">死锁</td>
+</tr>
+<tr>
+<td style="text-align:center">异步(async)</td>
+<td style="text-align:center">有开启新线程，并行执行任务</td>
+<td style="text-align:center">开启新线程，串行执行任务</td>
+<td style="text-align:center">没有开启新线程，串行执行任务</td>
+</tr>
+</tbody>
+</table>
 ]]></content>
     
     <summary type="html">
