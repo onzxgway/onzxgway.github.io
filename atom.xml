@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-27T14:48:54.000Z</updated>
+  <updated>2017-02-27T14:53:12.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/02/22/iOS%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     <id>http://yoursite.com/2017/02/22/iOS并发编程/</id>
     <published>2017-02-22T10:21:56.000Z</published>
-    <updated>2017-02-27T14:48:54.000Z</updated>
+    <updated>2017-02-27T14:53:12.000Z</updated>
     
     <content type="html"><![CDATA[<p><strong>并发</strong> 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种<strong><em>API(pthread,NSThread,GCD,NSOperation)</em></strong>用于并发编程。本文以讲解四种API的使用方法为切入点，带你了解多线程的全貌。</p>
 <a id="more"></a>
@@ -157,11 +157,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 队列</div><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</div><div class="line">// 调度组</div><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line">// 添加异步</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">&#125;);</div><div class="line">// 调度组通知 - 监听群组中，所有异步执行的代码完成后，得到通知 // 异步监听</div><div class="line">dispatch_group_notify(group, dispatch_get_main_queue(), ^&#123;</div><div class="line">    //UI操作</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 分别异步执行2个耗时的操作、2个异步操作都执行完毕后，再回到主线程执行操作</div><div class="line">dispatch_group_t group =  dispatch_group_create();</div><div class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</div><div class="line">    // 执行1个耗时的异步操作</div><div class="line">&#125;);</div><div class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</div><div class="line">    // 执行1个耗时的异步操作</div><div class="line">&#125;);</div><div class="line">dispatch_group_notify(group, dispatch_get_main_queue(), ^&#123;</div><div class="line">    // 等前面的异步操作都执行完毕后，回到主线程...</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p><mark><strong>4，NSOperation</strong></mark></p>
-<p>NSOperation是OC基于GCD的封装，相比GCD，NSOperation的使用更加简单，苹果推荐的安全可靠的使用并发编程的方式。<br>NSOperation的使用常常是配合NSOperationQueue来进行的。只要是使用NSOperation的子类创建的实例就能添加到NSOperationQueue操作队列之中，一旦添加到队列，操作就会自动异步执行。如果没有添加到队列，而是使用start方法，则会在当前线程执行。</p>
+<p>NSOperation是OC基于GCD的封装，相比GCD，NSOperation的使用更加简单，苹果推荐的安全可靠的使用并发编程的方式。</p>
 <blockquote>
 <p>首先详细的介绍两个核心类NSOperation和NSOperationQueue。</p>
 </blockquote>
-<h2 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h2><p>查看原文件发现NSOperation是一个抽象类，不能够直接使用，主要通过它的两个子类NSInvocationOperation和NSBlockOperation来使用的。</p>
+<h2 id="NSOperationQueue"><a href="#NSOperationQueue" class="headerlink" title="NSOperationQueue"></a>NSOperationQueue</h2><p>通过alloc+init创建的队列默认是并发队列。</p>
+<h2 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h2><p>查看原文件发现NSOperation是一个抽象类，不能够直接使用，主要通过它的两个子类NSInvocationOperation和NSBlockOperation来使用的。<br>NSOperation的使用常常是配合NSOperationQueue来进行的。只要是使用NSOperation的子类创建的实例就能添加到NSOperationQueue操作队列之中，一旦添加到队列，操作就会自动异步执行。操作直接调用start方法，则在当前线程执行。</p>
 <p>【NSInvocationOperation】</p>
 <ul>
 <li>执行操作</li>
