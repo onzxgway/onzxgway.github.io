@@ -20,23 +20,21 @@
     <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="">
-    <meta name="description" content="dasffdafdafdadfadf">
+    <meta name="description" content="在开始之前先思考一个问题，就是为什么需要内存管理？iOS系统会在程序退出以后，回收其所有内存，那么开发者还有必要在程序运行过程中耗费时间精力去管理内存吗？答案是肯定的，1：程序运行的过程中，如果不去管理内存，可能会发生内存泄露，而内存泄露会导致程序运行出错甚至直接崩溃闪退。虽然有些情况下的内存泄露，并不会导致上述状况，2：严格的内存管理可以让应用更加合理、高效的使用有限的硬件条件，提高应用程序的性">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test">
-<meta property="og:url" content="http://example.com/2020/10/01/test/index.html">
+<meta property="og:title" content="内存管理（下）">
+<meta property="og:url" content="http://example.com/2020/09/28/memory-management-2/index.html">
 <meta property="og:site_name" content="朱献国的博客">
-<meta property="og:description" content="dasffdafdafdadfadf">
+<meta property="og:description" content="在开始之前先思考一个问题，就是为什么需要内存管理？iOS系统会在程序退出以后，回收其所有内存，那么开发者还有必要在程序运行过程中耗费时间精力去管理内存吗？答案是肯定的，1：程序运行的过程中，如果不去管理内存，可能会发生内存泄露，而内存泄露会导致程序运行出错甚至直接崩溃闪退。虽然有些情况下的内存泄露，并不会导致上述状况，2：严格的内存管理可以让应用更加合理、高效的使用有限的硬件条件，提高应用程序的性">
 <meta property="og:locale">
-<meta property="og:image" content="http://example.com/.com//ReferenceCount.png">
-<meta property="article:published_time" content="2020-10-01T07:08:25.000Z">
-<meta property="article:modified_time" content="2020-10-02T00:56:19.533Z">
+<meta property="article:published_time" content="2020-09-28T10:32:14.000Z">
+<meta property="article:modified_time" content="2020-10-02T00:59:50.555Z">
 <meta property="article:author" content="朱献国">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/.com//ReferenceCount.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
-    <title>test · fi3ework&#39;s Studio</title>
+    <title>内存管理（下） · fi3ework&#39;s Studio</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -231,7 +229,7 @@
                 <a href="/" >fi3ework&#39;s Studio.</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">test</a>
+                <a href="#" class="post-name">内存管理（下）</a>
             </div>
     </div>
     
@@ -261,7 +259,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            test
+            内存管理（下）
             <!-- 404 -->
             
         </h1>
@@ -280,12 +278,12 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">505</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2020/10/01</span>
+                    <span class="post-intro-time">2020/09/28</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -409,16 +407,27 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>dasffdafdafd<br><img src="/.com//ReferenceCount.png" alt="引用计数"><br>adfadf</p>
+        <p>在开始之前先思考一个问题，就是为什么需要内存管理？iOS系统会在程序退出以后，回收其所有内存，那么开发者还有必要在程序运行过程中耗费时间精力去管理内存吗？<br>答案是肯定的，1：程序运行的过程中，如果不去管理内存，可能会发生内存泄露，而内存泄露会导致程序运行出错甚至直接崩溃闪退。虽然有些情况下的内存泄露，并不会导致上述状况，2：严格的内存管理可以让应用更加合理、高效的使用有限的硬件条件，提高应用程序的性能。</p>
+<blockquote>
+<p>内存管理的范围是 存放任何继承NSObject的类实例的堆内存。</p>
+</blockquote>
+<h3 id="一：什么情况下会发生内存泄露？"><a href="#一：什么情况下会发生内存泄露？" class="headerlink" title="一：什么情况下会发生内存泄露？"></a>一：什么情况下会发生内存泄露？</h3><p>iOS开发，不管是Objective-C语言还是Swift语言，其内存管理的方式都是基于引用计数的。所以如果发生了内存泄露，肯定与引用计数有关。<br>1，引用计数的天生缺陷是循环引用，以下是项目中常见的循环引用：</p>
+<ul>
+<li><strong>delegate</strong>：xxxx</li>
+<li><strong>block</strong>：xxxx</li>
+<li><strong>controller+view</strong>：xxxx</li>
+<li><strong>NSTimer</strong>：xxxx</li>
+</ul>
+<p>2，错误使用手动引用计数<br>　　底层Core Foundation对象，需要手动去管理，如果创建使用之后，没有调用CFRelease方法去释放的话，也会造成内存泄露。<br>3，大次数循环内存暴涨<br>　　<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　while (true) &#123;</span><br><span class="line">        UIViewController *ctr &#x3D; [[UIViewController alloc] init];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>　　<br>　　该循环内产生大量的临时对象，直到循环结束才释放，可能导致内存泄露，解决方法是把循环体放到自动释放池中，及时释放占用内存大的临时变量。<br>　　<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">　　while (true) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        UIViewController *ctr &#x3D; [[UIViewController alloc] init];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>4，项目中的第三方导致的内存泄露。<br>　　到github上查看三方的Issues，看是否有相关的问答。或者通过网络、书籍、前辈查询相关解决方案。</p>
 
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="http://example.com">朱献国</a>
-            <p>原文链接：<a href="http://example.com/2020/10/01/test/">http://example.com/2020/10/01/test/</a>
-            <p>发表日期：<a href="http://example.com/2020/10/01/test/">October 1st 2020, 3:08:25 pm</a>
-            <p>更新日期：<a href="http://example.com/2020/10/01/test/">October 2nd 2020, 8:56:19 am</a>
+            <p>原文链接：<a href="http://example.com/2020/09/28/memory-management-2/">http://example.com/2020/09/28/memory-management-2/</a>
+            <p>发表日期：<a href="http://example.com/2020/09/28/memory-management-2/">September 28th 2020, 6:32:14 pm</a>
+            <p>更新日期：<a href="http://example.com/2020/09/28/memory-management-2/">October 2nd 2020, 8:59:50 am</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -426,12 +435,17 @@ height:50vh;
     <ul class="post-paginator">
         <li class="next">
             
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/10/01/test/" title= "test">
+                    <div class="nextTitle">test</div>
+                </a>
+            
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2020/09/28/memory-management-2/" title= "内存管理（下）">
-                    <div class="prevTitle">内存管理（下）</div>
+                <a href= "/2020/09/27/memory-management-1/" title= "内存管理（上）">
+                    <div class="prevTitle">内存管理（上）</div>
                 </a>
             
         </li>
@@ -554,7 +568,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%EF%BC%9A%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E5%8F%91%E7%94%9F%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一：什么情况下会发生内存泄露？</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
