@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2020/09/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2018/08/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,47 +355,18 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/09/28/memory-management-2/" >
-            
-                <span>内存管理（下）</span>
-        </a>
-        <div class="abstract-content">
-            在开始之前先思考一个问题，就是为什么需要内存管理？iOS系统会在程序退出以后，回收其所有内存，那么开发者还有必要在程序运行过程中耗费时间精力去管理内存吗？答案是肯定的，1：程序运行的过程中，如果不去管理内存，可能会发生内存泄露，而内存泄露会导致程序运行出错甚至直接崩溃闪退。虽然有些情况下的内存泄露，并不会导致上述状况，2：严格的内存管理可以让应用更加合理、高效的使用有限的硬件条件，提高应用程序的性能。
-一：内存泄露什么是内存泄露内存泄露指一个对象或者变量在使用完成后没有及时释放掉，一直占用着内存，直到应用停止。
-哪些情况下会发生内存泄露iOS开发，不管是Objective-C语言还是Sw...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/09/28</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/09/27/memory-management-1/" >
+        <a class="abstract-title" href = "/2018/08/27/memory-management-1/" >
             
                 <span>内存管理（上）</span>
         </a>
         <div class="abstract-content">
-            iOS开发，不管是Objective-C语言还是Swift语言，其内存管理的方式都是基于引用计数的。本篇博客就是讲解引用计数的原理及特点。
-
-Java语言的内存管理方式是GC垃圾回收机制(Garbage Collection)
-
-一：什么是引用计数，原理是什么引用计数（Reference Count）是一种简单有效的管理对象生命周期的方式。它的原理是：当我们创建一个新对象的时候，它的引用计数为1，当有一个新的指针指向该对象时，我们把其引用计数加1，当某个指针不再指向该对象时，我们将其引用计数减1，当对象的引用计数为0的时候，说明不再被任何指针引用了，我们可以将对象销毁，回收内存。
-二：引...
+            关于iOS开发中内存管理的知识脉络，我依据自己的思路整理了一下，根据管理的是哪个区域的内存-&gt;管理的方式-&gt;内存泄露-&gt;内存警告线索来展开。具体的每个步骤里面会有更多的关联知识点，但是能力有限，写作匆忙，有瑕疵错误的地方，多多包涵。
+内存分区内存区域划分程序如果想要执行，第一步就需要从磁盘加载到内存中。运行过程中内存的分区是怎样的呢，如下图所示。1，栈区（stack）由编译器自动分配并释放的变量存储区。存放函数的参数值，局部变量等。栈是系统数据结构，对应线程/进程是唯一的。优点是快速高效，缺点是有限制，数据不灵活。［先进后出］2，堆区（heap）由程序员申请和释放，如果...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/09/27</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/08/27</span>
             </div>
             <!-- tags  -->
             
@@ -548,17 +519,17 @@ Java语言的内存管理方式是GC垃圾回收机制(Garbage Collection)
     
     
     
-    <div class="archive-year"> 2020 </div>
+    <div class="archive-year"> 2018 </div>
     <ul class="year-list">
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/28</span><a class="archive-post-title" href= "/2020/09/28/memory-management-2/" >内存管理（下）</a>
+            <span class="archive-post-date">09/18</span><a class="archive-post-title" href= "/2018/09/18/memory-management-2/" >内存管理（下）</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/27</span><a class="archive-post-title" href= "/2020/09/27/memory-management-1/" >内存管理（上）</a>
+            <span class="archive-post-date">08/27</span><a class="archive-post-title" href= "/2018/08/27/memory-management-1/" >内存管理（上）</a>
         </li>
     
     
