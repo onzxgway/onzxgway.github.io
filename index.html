@@ -374,9 +374,9 @@ height:50vh;
         </a>
         <div class="abstract-content">
             什么是blockblock就是一个里面存储了指向函数体中包含定义block时的代码块的函数指针，以及block外部上下文变量等信息的结构体。
-block内存分布在Objective-C语言中，有三种类型的block：1，__NSGlobalBlock__  保存在全局区，不会访问任何外部变量。2，__NSStackBlock__   保存在栈中，当函数返回时会被销毁。3，__NSMallocBlock__  保存在堆中，当引用计数为0时会被销毁。
+block内存分布三种类型block在Objective-C语言中，有三种类型的block。1，__NSGlobalBlock__  保存在全局区，不会访问任何外部变量。2，__NSStackBlock__   保存在栈中，当函数返回时会被销毁。3，__NSMallocBlock__  保存在堆中，当引用计数为0时会被销毁。
 在MRC模式下，运行如下代码，从log中可以证明存在三种类型的block。
-12345678910111213141516// 一NSInte...
+12345678910111213141516/...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
