@@ -360,7 +360,16 @@
                 <span>iOS并发编程进阶</span>
         </a>
         <div class="abstract-content">
-            
+            NSThread需求一：用NSThread实现三个线程任务A、B、C，它们结束之后，再执行D、E任务。思路：用KVO监听NSThread实例的isFinished属性。
+1demo
+需求二：把有三个参数的函数放在子线程执行。
+1NSThread暂时实现不了。
+
+NSOperation需求一：用NSOperation实现三个线程任务A、B、C，它们结束之后，再执行D、E任务。
+
+方式一：先执行封装了A + B + C操作的NSBlockOperation，KVO监听属性finished=YES时，再执行封装了D + E操作的NSBlockOperation对象。
+
+123456789101...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -525,22 +534,9 @@
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 7
+        Total : 6
         </div>
         <!-- search  -->
         
@@ -586,11 +582,6 @@
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2017/03/22/Multi-threading-1/" >iOS并发编程基础</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/22</span><a class="archive-post-title" href= "/2017/03/22/Multi-threading-1~/" >iOS并发编程基础</a>
         </li>
     
     
