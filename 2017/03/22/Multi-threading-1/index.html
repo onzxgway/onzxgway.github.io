@@ -29,7 +29,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="http://ols16w547.bkt.clouddn.com/Screen%20Shot%202017-02-22%20at%209.04.58%20PM.png">
 <meta property="article:published_time" content="2017-03-22T10:21:56.000Z">
-<meta property="article:modified_time" content="2020-10-17T14:15:18.515Z">
+<meta property="article:modified_time" content="2020-10-18T07:20:20.635Z">
 <meta property="article:author" content="朱献国">
 <meta property="article:tag" content="iOS,Objective-C,Swift,OC,朱献国">
 <meta name="twitter:card" content="summary">
@@ -281,7 +281,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">7.2k</span>阅读时长: <span class="post-count reading-time">29 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">6.7k</span>阅读时长: <span class="post-count reading-time">27 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -554,29 +554,6 @@ height:50vh;
 <td align="center">在当前线程，依次执行任务</td>
 </tr>
 </tbody></table>
-<blockquote>
-<p><strong>GCD的其他用法</strong></p>
-</blockquote>
-<p>【GCD延时操作】</p>
-<p>dispatch_after</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dispatch_after(dispatch_time_t when,dispatch_queue_t queue,dispatch_block_t block);</span><br><span class="line">&#x2F;&#x2F;参数解释</span><br><span class="line">1，dispatch_time_t when</span><br><span class="line">多少纳秒之后执行</span><br><span class="line">2，dispatch_queue_t queue</span><br><span class="line">任务添加到哪个队列</span><br><span class="line">3，dispatch_block_t block</span><br><span class="line">要执行的任务</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;延时操作</span><br><span class="line">dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">&#125;);</span><br><span class="line">注意：如果任务在子线程中执行，那么一定要开启该子线程的消息循环Runloop,此定时任务才会有效执行。</span><br></pre></td></tr></table></figure>
-
-
-<p>【GCD一次执行】</p>
-<p>dispatch_once 代码从程序启动就执行一次</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static dispatch_once_t onceToken;</span><br><span class="line">dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">    &#x2F;&#x2F;要执行的代码块</span><br><span class="line">    &#x2F;&#x2F;只会被执行一次</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">实现机制：在静态区分配内存给onceToken变量，并且初始化为0(静态区变量为全局变量，且直到程序退出才会释放onceToken),线程执行到这里时，判断onceToken的值为0，就去执行block,并且onceToken的值更改为-1，第二次再有线程来执行时，判断onceToken的值为-1，就不执行block。</span><br></pre></td></tr></table></figure>
-
-<p>苹果推荐单例的创建方式为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)sharedSingleton &#123;</span><br><span class="line">    static id instance;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        instance &#x3D; [[self alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>【GCD的队列组】</p>
-<p>使用场景：在组里的异步任务都执行完毕后，再去执行其他操作。简言之，就是可以获取到多个线程执行结束的统一时间点。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 队列</span><br><span class="line">dispatch_queue_t queue &#x3D; dispatch_get_global_queue(0, 0);</span><br><span class="line">&#x2F;&#x2F; 调度组</span><br><span class="line">dispatch_group_t group &#x3D; dispatch_group_create();</span><br><span class="line">&#x2F;&#x2F; 添加异步</span><br><span class="line">dispatch_group_async(group, queue, ^&#123;</span><br><span class="line">&#125;);</span><br><span class="line">&#x2F;&#x2F; 调度组通知 - 监听群组中，所有异步执行的代码完成后，得到通知 &#x2F;&#x2F; 异步监听</span><br><span class="line">dispatch_group_notify(group, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    &#x2F;&#x2F;UI操作</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 分别异步执行2个耗时的操作、2个异步操作都执行完毕后，再回到主线程执行操作</span><br><span class="line">dispatch_group_t group &#x3D;  dispatch_group_create();</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    &#x2F;&#x2F; 执行1个耗时的异步操作</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_async(group, dispatch_get_global_queue(0, 0), ^&#123;</span><br><span class="line">    &#x2F;&#x2F; 执行1个耗时的异步操作</span><br><span class="line">&#125;);</span><br><span class="line">dispatch_group_notify(group, dispatch_get_main_queue(), ^&#123;</span><br><span class="line">    &#x2F;&#x2F; 等前面的异步操作都执行完毕后，回到主线程...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
 <h3 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a><mark><strong>NSOperation</strong></mark></h3><p>NSOperation是GCD面向对象的封装，使用更加简单，苹果推荐的安全可靠的并发编程的方式。</p>
 <blockquote>
 <p>首先介绍两个核心类NSOperation和NSOperationQueue。</p>
@@ -646,7 +623,7 @@ height:50vh;
             <p>原文作者：<a href="http://onzxgway.github.io">朱献国</a>
             <p>原文链接：<a href="http://onzxgway.github.io/2017/03/22/Multi-threading-1/">http://onzxgway.github.io/2017/03/22/Multi-threading-1/</a>
             <p>发表日期：<a href="http://onzxgway.github.io/2017/03/22/Multi-threading-1/">March 22nd 2017, 6:21:56 pm</a>
-            <p>更新日期：<a href="http://onzxgway.github.io/2017/03/22/Multi-threading-1/">October 17th 2020, 10:15:18 pm</a>
+            <p>更新日期：<a href="http://onzxgway.github.io/2017/03/22/Multi-threading-1/">October 18th 2020, 3:20:20 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
