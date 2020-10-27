@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2017/08/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2019/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,18 +355,19 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/08/27/memory-management-1/" >
+        <a class="abstract-title" href = "/2019/03/27/runtime1/" >
             
-                <span>内存管理（上）</span>
+                <span>Objective-C对象模型</span>
         </a>
         <div class="abstract-content">
-            关于iOS开发中内存管理的知识脉络，我依据自己的思路整理了一下，根据管理的是哪个区域的内存-&gt;管理的方式-&gt;内存泄露-&gt;内存警告线索来展开。具体的每个步骤里面会有更多的关联知识点，但是能力有限，写作匆忙，有瑕疵错误的地方，多多包涵。
-内存分区内存区域划分程序如果想要执行，第一步就需要从磁盘加载到内存中。运行过程中内存的分区是怎样的呢，如下图所示。1，栈区（stack）由编译器自动分配并释放的变量存储区。存放函数的参数值，局部变量等。栈是系统数据结构，对应线程/进程是唯一的。优点是快速高效，缺点是有限制，数据不灵活。［先进后出］2，堆区（heap）由程序员申请和释放，如果...
+            isa指针Objective-C是一门面向对象的编程语言，每一个对象都是一个类的实例。在Objective-C语言的内部，每一个对象都有一个名为isa的指针，指向该对象所属的类。每一个类描述了一系列它的实例的特点，包括成员变量列表、成员函数列表等。每一个对象都可以接受消息，而对象能够接受的消息列表保存在它所对应的类中。
+在Xcode中，打开NSObject的定义头文件，可以看到，NSObject就是一个包含isa指针的结构体，如下所示。
+1234567// NSObject.h@interface NSObject &lt;NSObject&gt; &#123;#pragma clang...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/08/27</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/27</span>
             </div>
             <!-- tags  -->
             
