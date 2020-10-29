@@ -373,9 +373,9 @@ height:50vh;
                 <span>runtime</span>
         </a>
         <div class="abstract-content">
-            获取类对象信息类对象(Class)在runtime面前是透明的，通过runtime可以获取到类的所有信息包括成员变量、函数列表和协议列表等。
-定义一个继承自NSObject的类CTMObject，如下所示。
-12345678910111213141516171819202122232425262728293031#import &lt;Foundation/Foundation.h&gt;NS_ASSUME_NONNULL_BEGIN@protocol CTMObjectDelegate1 &lt;NSObject&gt;@end@protocol CTMObjectDelegate2 ...
+            动态获取类对象信息使用Objective-C语言提供的与runtime相关的函数，动态的获取类的所有信息包括成员变量、函数列表和协议列表等，如下所示。
+先定义一个继承自NSObject的类CTMObject。
+12345678910111213141516171819202122232425262728293031323334#import &lt;Foundation/Foundation.h&gt;NS_ASSUME_NONNULL_BEGIN@protocol CTMObjectDelegate1 &lt;NSObject&gt;@end@protocol CTMObjectDel...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
