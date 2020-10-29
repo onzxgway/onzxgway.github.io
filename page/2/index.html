@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2017/08/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/page/2/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -86,8 +86,6 @@
 
     <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
-    
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
@@ -212,8 +210,10 @@
 <meta name="generator" content="Hexo 5.2.0"></head>
 
     
+        <body class="home-body">
     
-<header class="header">
+    
+<header class="header index-header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
@@ -229,21 +229,34 @@
 
 
 
+
+height:50vh;
 ">
     
     <!-- 主页  -->
+    
+    
+    <!-- 文章页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+            Hello, World!
+            <!-- 文章页  -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
+            
+            
+                
+            
+            <!-- 文章页  -->
             
         </p>
         <!-- 文章页meta -->
@@ -355,18 +368,18 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/08/27/memory-management-1/" >
+        <a class="abstract-title" href = "/2017/02/20/hexo-github-1/" >
             
-                <span>内存管理（上）</span>
+                <span>在MacOS上使用Hexo+GitHub搭建个人博客</span>
         </a>
         <div class="abstract-content">
-            关于iOS开发中内存管理的知识脉络，我依据自己的思路整理了一下，根据管理的是哪个区域的内存-&gt;管理的方式-&gt;内存泄露-&gt;内存警告线索来展开。具体的每个步骤里面会有更多的关联知识点，但是能力有限，写作匆忙，有瑕疵错误的地方，多多包涵。
-内存分区内存区域划分程序如果想要执行，第一步就需要从磁盘加载到内存中。运行过程中内存的分区是怎样的呢，如下图所示。1，栈区（stack）由编译器自动分配并释放的变量存储区。存放函数的参数值，局部变量等。栈是系统数据结构，对应线程/进程是唯一的。优点是快速高效，缺点是有限制，数据不灵活。［先进后出］2，堆区（heap）由程序员申请和释放，如果...
+            IT行业的知识体系更新迭代非常频繁，开发者需要不停的去学习新的知识新的技术，那么往往老的知识技术会遗忘的非常快，通过记录总结可以在需要的时候快速回忆起来，其次，互联网IT的精神核心是分享、共享，总结记录下来就可以分享给需要的人。所以，我需要一个可以满足我的需求的方式，个人博客就是一个非常好的方式。　　通过Hexo + Github搭建的个人博客，就是一个非常好的选择。首先介绍一下Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。
+建站具体的建站过程，在这篇博文中不是重点，因为在网络上可以搜索到...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/08/27</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/02/20</span>
             </div>
             <!-- tags  -->
             
@@ -375,8 +388,109 @@
     
     <!-- paginator  -->
     
+    <nav class="page-nav">
+        <a class="extend prev" rel="prev" href="/">&lt; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
+    
 </main>
             <!-- profile -->
+            
+            <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= /avatar/landscape.jpg >
+    <div class="profile-name">朱献国</div>
+    
+    <div class="profile-signature">
+        努力学习👍努力工作
+    </div>
+    
+    
+    <div class="profile-social">
+        
+    
+        
+            
+                <a href="mailto:onzxgway@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/onzxgway" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/example_qr.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    
+        <div class="friends">
+            <div>FRIENDS</div>
+            
+                
+                    <span>
+                        <a href= //www.baidu.com target="_black">friendA</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href= //www.google.com target="_black">friendB</a>
+                    </span>
+                
+            
+                
+            
+        </div>
+    
+    
+        <div class="about-me">
+            <a href = "/about" >ABOUT ME</a>
+        </div>
+    
+</div>
             
         </div>
         <footer class="footer footer-unloaded">
