@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2018/01/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2017/04/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,26 +355,22 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2018/01/16/Multi-threading-2/" >
+        <a class="abstract-title" href = "/2017/04/08/Time-And-Date2/" >
             
-                <span>iOS并发编程进阶</span>
+                <span>时间与日期（下）</span>
         </a>
         <div class="abstract-content">
-            NSThread需求一：用NSThread实现三个线程任务A、B、C，它们结束之后，再执行D、E任务。思路：用KVO监听NSThread实例的isFinished属性。
-1demo
-需求二：把有三个参数的函数放在子线程执行。
-1NSThread暂时实现不了。
+            NSDateComponentsNSDateComponents类的作用是把日期拆分成一个一个的组件。一个日期是由年月日时分秒组成的，该类可以把日期拆分成单独的年、月、日、时、分、秒。通常是和NSCalendar类一起使用。
+初始化方法
+- (instancetype)init
 
-NSOperation需求一：用NSOperation实现三个线程任务A、B、C，它们结束之后，再执行D、E任务。
-
-方式一：先执行封装了A + B + C操作的NSBlockOperation，KVO监听属性finished=YES时，再执行封装了D + E操作的NSBlockOperation对象。
-
-123456789101...
+默认的初始化方法
+123456789101112131415// 创建NSDateComponents对象，设置时间点NSDateComponents *components = [[NSDateComponents alloc] init];[components setEra:1];     // 时代[c...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/16</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/08</span>
             </div>
             <!-- tags  -->
             
