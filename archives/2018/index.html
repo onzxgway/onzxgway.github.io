@@ -414,6 +414,35 @@ AFHTTPSessionManager继承自AFURLSessionManager。这句代码完成了如下�
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/02/08/object-copy/" >
+            
+                <span>对象拷贝</span>
+        </a>
+        <div class="abstract-content">
+            NSObject类提供了两个用于拷贝的方法：- (id)copy 和- (id)mutableCopy，这两个方法都可以复制已有对象生成副本。
+由于Objective-C中几乎所有的类都继承自NSObject，所以类中都有copy和mutableCopy两个方法，那么是否就意味着对象可以直接调用这两个方法进行拷贝了呢？
+
+定义一个AMPerson类继承自NSObject 进行测试，代码如下：
+
+12AMPerson *p1 = [[AMPerson alloc] init];AMPerson *p2 = [p1 copy];
+运行程序，发生崩溃，并输出以下错误信息：-[AMPerson ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/08</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/01/16/Multi-threading-2/" >
             
                 <span>iOS并发编程进阶</span>
@@ -698,9 +727,22 @@ NSOperation需求一：用NSOperation实现三个线程任务A、B、C，它们�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 15
+        Total : 16
         </div>
         <!-- search  -->
         
@@ -760,6 +802,11 @@ NSOperation需求一：用NSOperation实现三个线程任务A、B、C，它们�
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2018/10/22/AFNetworking%E8%A7%A3%E6%9E%90/" >AFNetworking解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/08</span><a class="archive-post-title" href= "/2018/02/08/object-copy/" >对象拷贝</a>
         </li>
     
     

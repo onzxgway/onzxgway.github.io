@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2017/03/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2018/02/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,52 +355,23 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/03/24/TimeANdDate/" >
+        <a class="abstract-title" href = "/2018/02/08/object-copy/" >
             
-                <span>时间与日期（上）</span>
+                <span>对象拷贝</span>
         </a>
         <div class="abstract-content">
-            NSDateNSDate表示公历（阳历）的格林尼治（G.M.T.）时间。
-初始化方法
-- (instancetype)init
+            NSObject类提供了两个用于拷贝的方法：- (id)copy 和- (id)mutableCopy，这两个方法都可以复制已有对象生成副本。
+由于Objective-C中几乎所有的类都继承自NSObject，所以类中都有copy和mutableCopy两个方法，那么是否就意味着对象可以直接调用这两个方法进行拷贝了呢？
 
-默认的初始化方法，返回当前时间，也可以直接调用+ (instancetype)date方法
-12345NSDate *date = [[NSDate alloc] init];// NSDate *date = [NSDate date]; // 等同于上句NSLog(@&quot;%@&quot;,date);
-log信息如下：2017-03-24 01:47:29 +0000打印的时间是格林尼治标准时间，不是我们所在的东八区时间。
+定义一个AMPerson类继承自NSObject 进行测试，代码如下：
 
-- (instance...
+12AMPerson *p1 = [[AMPerson alloc] init];AMPerson *p2 = [p1 copy];
+运行程序，发生崩溃，并输出以下错误信息：-[AMPerson ...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/03/24</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/03/22/Multi-threading-1/" >
-            
-                <span>iOS并发编程基础</span>
-        </a>
-        <div class="abstract-content">
-            并发 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种**API(pthread,NSThread,GCD,NSOperation)**用于并发编程。本文以讲解四种API的使用方法为切入点，带你了解多线程的全貌。
-
-在学习并发编程之前，首先我们要知道线程的概念，以及线程的一些相关基础知识，这是学习并发编程的基础。
-
-什么是线程线程（thread）是进程的基本单位，一个进程包含一个或多个线程（至少包含一个），操作系统的调度器可以直接调度线程。所有的并发编程A...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/03/22</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/08</span>
             </div>
             <!-- tags  -->
             
