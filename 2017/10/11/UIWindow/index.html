@@ -28,7 +28,7 @@
 <meta property="og:description" content="UIWindow是最顶层的界面容器，本文将讲解它的特点及一些使用技巧。 UIWindow简介在iOS应用中，我们使用UIWindow和UIView来呈现界面。UIWindow并不包含任何默认的内容，但是它被当作UIView的容器，用于放置应用中所有的UIView。而每一个UIView通常都是用来表示具体的某一部分界面，例如一段文字、一张图片等，当然，你也可以用UIView来当作其他UIView的容">
 <meta property="og:locale">
 <meta property="article:published_time" content="2017-10-11T14:25:56.000Z">
-<meta property="article:modified_time" content="2020-11-12T00:55:15.910Z">
+<meta property="article:modified_time" content="2020-11-12T04:36:39.809Z">
 <meta property="article:author" content="朱献国">
 <meta property="article:tag" content="iOS,Objective-C,Swift,OC,朱献国">
 <meta name="twitter:card" content="summary">
@@ -279,7 +279,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">531</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.4k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -417,7 +417,22 @@ height:50vh;
 
 <p>所以UIWindow的主要作用有：<br>1.作为UIView的最顶层容器，包含应用显示所需要的所有的UIView。<br>2.传递触摸消息和键盘事件给UIView。</p>
 <h2 id="为UIWindow增加UIView"><a href="#为UIWindow增加UIView" class="headerlink" title="为UIWindow增加UIView"></a>为UIWindow增加UIView</h2><p>通常有两种办法给UIWindow增加子UIView：<br>1.通过调用addSubView方法。因为UIWindow是UIView的子类，所以它可以使用UIView的addSubView方法给自己增加子UIView,从而承担容器的作用。<br>2.通过设置其特有的rootViewController属性。通过设置该属性为要添加view对应的UlViewController, UIWindow将会自动将其view添加到当前window中，同时负责维护ViewController 和 view的生命周期。我们在之前的 application: didFinishLaunching- WithOptions:示例代码中看到的就是这种办法。</p>
-<h2 id="系统对UIWindow的使用"><a href="#系统对UIWindow的使用" class="headerlink" title="系统对UIWindow的使用"></a>系统对UIWindow的使用</h2><p>通常在一个程序中只会有一个UIWindow，但有些时候我们调用系统的控件(例如UIAlertView)时，iOS系统为了保证UIAlertView在所有的界面之上，它会临时创建一个新的UIWindow,通过将其UIWindow的UIWindowLevel设置得更高，让UIAlertView盖在所有的应用界面之上。</p>
+<h2 id="系统对UIWindow的使用"><a href="#系统对UIWindow的使用" class="headerlink" title="系统对UIWindow的使用"></a>系统对UIWindow的使用</h2><p>通常在一个程序中只会有一个UIWindow，但有些时候我们调用系统的控件(例如UIAlertView)时，iOS系统为了保证UIAlertView在所有的界面之上，它会临时创建一个新的UIWindow，通过将其UIWindow的UIWindowLevel设置得更高，让UIAlertView盖在所有的应用界面之上。<br>除了在应用中通过调用API弹出系统的各种控件外，有些时候iOS系统也会根据当时的各种情况（例如电池电量不足，收到来电或短信等）通过创建新的UlWindow来作为系统控件的容器。</p>
+<h3 id="WindowLevel"><a href="#WindowLevel" class="headerlink" title="WindowLevel"></a>WindowLevel</h3><p>那么是不是新创建的UIWindow一定会覆盖在界面的最上面呢？其实并不是这样。UIWindow有一个UIWindowLevel的属性，该属性定义了UIWindow的层级，系统定义的WindowLevel一共有3种取值，如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UIKIT_EXTERN const UIWindowLevel UIWindowLevelNormal;</span><br><span class="line">UIKIT_EXTERN const UIWindowLevel UIWindowLevelAlert;</span><br><span class="line">UIKIT_EXTERN const UIWindowLevel UIWindowLevelStatusBar;</span><br></pre></td></tr></table></figure>
+
+<p>我们通过如下代码将这些值输出:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@<span class="string">&quot;UIWindowLevelNormal=%f UIWindowLevelStatusBar=%f UIWindowLevelAlert=%f&quot;</span>, UIWindowLevelNormal, UIWindowLevelStatusBar, UIWindowLevelAlert);</span><br></pre></td></tr></table></figure>
+<p>最终得到的结果是：<br>UIWindowLevelNormal    =0.000000<br>UIWindowLevelStatusBar =1000.000000<br>UIWindowLevelAlert     =2000.000000</p>
+<p>从中我们就能够看出来了，默认程序的UIWindow的层级是UIWindowLevelNormal，当系统需要在其上面覆盖UIAlertView时，就会创建一个层级是UIWindowLevelAlert的UIWindow，因为其WindowLevel值更高，所以就覆盖在上面了。</p>
+<p>在实际应用中，WindowLevel的取值并不限于上面提到的3个值。例如在上面的例子中，我们可以在UIAlertView的点击回调中，査看该view对应的UIWindow的WindowLevel值，其WindowLevel值为1996。</p>
+<h3 id="手工创建UIWindow"><a href="#手工创建UIWindow" class="headerlink" title="手工创建UIWindow"></a>手工创建UIWindow</h3><p>有些时候，我们也希望在应用开发中，将某些界面覆盖在所有界面的最上层。这个时候我们就可以手工创建一个新的UIWindow。需要注意的是，和创建UIView不同，UIWindow—旦被创建，它就自动被添加到整个界面上了，且hidden属性默认值为YES。下面是一个示例代码，在代码中，我们创建一个新的UIWindow，并且把它添加到界面中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@implementation ViewController &#123;</span><br><span class="line">    UIWindow *_window;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)exchangeKeyWindow &#123;</span><br><span class="line">    </span><br><span class="line">    _window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds]; // 一旦创建好了之后，自动添加在整个界面上</span><br><span class="line">    _window.windowLevel = UIWindowLevelNormal;</span><br><span class="line">    _window.hidden = NO;</span><br><span class="line">    _window.backgroundColor = [UIColor redColor];</span><br><span class="line">    </span><br><span class="line">    UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideWindow:)];</span><br><span class="line">    [_window addGestureRecognizer:gesture];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)hideWindow:(UIGestureRecognizer *)ges &#123;</span><br><span class="line">    _window.hidden = YES;</span><br><span class="line">    _window = nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>通过以上代码，我们就简单实现了手工创建UIWindow并将其显示的需求。除了直接构造UIWindow实例外，对于一些复杂的需求，我们也可以将UIWindow继承，然后将相关逻辑都封装在UIWindow子类中。</p>
+<p>最后还有一点需要注意的是，如果我们创建的UIWindow需要处理键盘事件，那就需要合理地将其设置为keyWindow。keyWindow是被系统设计用来接收键盘和其他非触摸事件的UIWindow。我们可以通makeKeyWindow和resignKeyWindow方法来将自己创建的 UIWindow 实例设置成keyWindow。<br>支付宝客户端的手势解锁功能，也是UIWindow的一个极好的应用。除了密码输入界面外, 其他适合用UIWindow来实现的功能还包括：应用的启动介绍页、应用内的通知提醒显示、应用内的弹框广告等。</p>
+<h3 id="不要滥用UIWindow"><a href="#不要滥用UIWindow" class="headerlink" title="不要滥用UIWindow"></a>不要滥用UIWindow</h3><p>通过创建UIWindow，我们很容易地实现了将某个特定界面置于最上层的效果，但是这种特性不应该被滥用。很多时候，如果弹出界面明显属于某一个ViewController，那么更适合把弹出的界面当作这个ViewController的view的subView来实现。<br>常见的滥用方式是把需要的弹出界面都设置成单例，需要的时候就调用显示。这种做法会使得新创建的UIWindow一直得不到释放。并且当出现多个UIWindow需要相互有层级覆盖关系时，实现起来会比较复杂。</p>
+<p>参考资料：《iOS开发进阶》</p>
 
     </article>
     <!-- license  -->
@@ -426,7 +441,7 @@ height:50vh;
             <p>原文作者：<a href="http://onzxgway.github.io">朱献国</a>
             <p>原文链接：<a href="http://onzxgway.github.io/2017/10/11/UIWindow/">http://onzxgway.github.io/2017/10/11/UIWindow/</a>
             <p>发表日期：<a href="http://onzxgway.github.io/2017/10/11/UIWindow/">October 11th 2017, 10:25:56 pm</a>
-            <p>更新日期：<a href="http://onzxgway.github.io/2017/10/11/UIWindow/">November 12th 2020, 8:55:15 am</a>
+            <p>更新日期：<a href="http://onzxgway.github.io/2017/10/11/UIWindow/">November 12th 2020, 12:36:39 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -567,7 +582,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#UIWindow%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">UIWindow简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BAUIWindow%E5%A2%9E%E5%8A%A0UIView"><span class="toc-number">2.</span> <span class="toc-text">为UIWindow增加UIView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AF%B9UIWindow%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">系统对UIWindow的使用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#UIWindow%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">UIWindow简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BAUIWindow%E5%A2%9E%E5%8A%A0UIView"><span class="toc-number">2.</span> <span class="toc-text">为UIWindow增加UIView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AF%B9UIWindow%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">系统对UIWindow的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WindowLevel"><span class="toc-number">3.1.</span> <span class="toc-text">WindowLevel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%B7%A5%E5%88%9B%E5%BB%BAUIWindow"><span class="toc-number">3.2.</span> <span class="toc-text">手工创建UIWindow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E8%A6%81%E6%BB%A5%E7%94%A8UIWindow"><span class="toc-number">3.3.</span> <span class="toc-text">不要滥用UIWindow</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -580,10 +595,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
     
     
     
