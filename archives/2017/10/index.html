@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2020/03/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2017/10/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,19 +355,18 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/03/04/RunLoop/" >
+        <a class="abstract-title" href = "/2017/10/11/UIWindow/" >
             
-                <span>RunLoop</span>
+                <span>UIWindow</span>
         </a>
         <div class="abstract-content">
-            RunLoop是 iOS  开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。
-RunLoop 的概念一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：
-1234567function loop() &#123;    initialize();    do &#123;        var message = g...
+            UIWindow是最顶层的界面容器，本文将讲解它的特点及一些使用技巧。
+UIWindow简介在iOS应用中，我们使用UIWindow和UIView来呈现界面。UIWindow并不包含任何默认的内容，但是它被当作UIView的容器，用于放置应用中所有的UIView。而每一个UIView通常都是用来表示具体的某一部分界面，例如一段文字、一张图片等，当然，你也可以用UIView来当作其他UIView的容器。所以UIWindow更多的时候只作为UIView的顶层容器存在。从继承关系上，我们能看到UIWindow继承自UIView，所以UIWindow除了具UIView的所有功能外，还增加了一些特...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/04</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/10/11</span>
             </div>
             <!-- tags  -->
             
