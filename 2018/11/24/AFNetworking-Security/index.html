@@ -27,15 +27,18 @@
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:description" content="HTTP超文本传输协议用于客户与服务器端之间的通信。 告知服务器客户端意图的HTTP方法，包括以下几种：  ① GET：直接访问URI识别的资源，也就是说根据URI来获取资源。 ② POST： 用来传输实体的主体。 ③ PUT：用来传输文件。 ④ HEAD：用来获取报文首部，和GET方法差不多，只是响应部分不会返回主体内容。 ⑤ DELETE：删除文件，和PUT恰恰相反。按照请求的URI来删除指定">
 <meta property="og:locale">
+<meta property="og:image" content="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/AFN_Sec4.png">
+<meta property="og:image" content="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/AFN_Sec5.jpg">
+<meta property="og:image" content="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/AFN_Sec6.jpg">
 <meta property="og:image" content="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/AFN_Sec1.png">
 <meta property="og:image" content="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/AFN_Sec2.png">
 <meta property="og:image" content="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/AFN_Sec3.png">
 <meta property="article:published_time" content="2018-11-24T02:30:07.000Z">
-<meta property="article:modified_time" content="2020-10-26T11:55:04.634Z">
+<meta property="article:modified_time" content="2020-11-15T06:57:57.532Z">
 <meta property="article:author" content="朱献国">
 <meta property="article:tag" content="iOS,Objective-C,Swift,OC,朱献国">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/AFN_Sec1.png">
+<meta name="twitter:image" content="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/AFN_Sec4.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
@@ -283,7 +286,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">3.3k</span>阅读时长: <span class="post-count reading-time">14 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">6.6k</span>阅读时长: <span class="post-count reading-time">26 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -424,6 +427,52 @@ height:50vh;
 <li>⑦ TRACE：追踪路径，返回服务器端之前的请求通信环信息。</li>
 <li>⑧ CONNECT：要求用隧道协议连接代理，要求在与代理服务器通信时简历隧道，实现用隧道协议进行TCP通信。SSL(Secure Sockets Layer)和TLS(Transport Layer Security)就是把通信内容加密后进行隧道传输的。</li>
 </ul>
+<blockquote>
+<p>GET与POST区别？<br>1.提交数据的形式。<br>GET请求的数据会附在URL之后(就是把数据放置在HTTP协议头中)，会直接展现在地址栏中，以?分割URL和传输数据，参数之间以&amp;相连，如：login.action?name=hyddd&amp;password=idontknow&amp;verify=%E4%BD%A0%E5 %A5%BD。<br>如果数据是英文字母/数字，原样发送，如果是空格，转换为+，如果是中文/其他字符，则直接把字符串用BASE64加密，<br>得出如：%E4 %BD%A0%E5%A5%BD，其中%XX中的XX为该符号以16进制表示的ASCII。<br>而POST方法则会把数据放到请求数据字段中以&amp;分隔各个字段，请求行不包含数据参数，地址栏也不会额外附带参数<br>2.提交数据的大小。<br>get方法提交数据的大小直接影响到了URL的长度，但HTTP协议规范中其实是没有对URL限制长度的，限制URL长度的是客户端或服务器的支持的不同所影响：比如IE对URL长度的限制是2083字节(2K+35)。对于其他浏览器，如Netscape、FireFox等，理论上没有长度限制，其限制取决于操作系统的支持。<br>post方式HTTP协议规范中也没有限定，起限制作用的是服务器的处理程序的处理能力。<br>所以大小的限制还是得受各个web服务器配置的不同而影响。<br>3.提交数据的安全。<br>POST比GET方式的安全性要高<br>通过GET提交数据，用户名和密码将明文出现在URL上，因为一下几个原因get方式安全性会比post弱：<br>(1)登录页面有可能被浏览器缓存<br>(2)其他人查看浏览器的历史纪录，那么别人就可 以拿到你的账号和密码了<br>(3)当遇上跨站的攻击时，安全性的表现更差</p>
+</blockquote>
+<h3 id="请求报文结构"><a href="#请求报文结构" class="headerlink" title="请求报文结构"></a>请求报文结构</h3><p>一个HTTP请求报文由三个部分组成：请求行、请求头、请求体。</p>
+<ul>
+<li><strong>请求行</strong></li>
+</ul>
+<p>请求行由请求方法字段、URL字段和HTTP协议版本字段组成，它们之间用空格分隔。比如<br>    GET <a target="_blank" rel="noopener" href="https://www.xxx.com/data/info.html">https://www.xxx.com/data/info.html</a> HTTP/1.1</p>
+<p>HTTP协议版本有两种：HTTP1.0/HTTP1.1。<br>HTTP1.0对于每个连接都只能传送一个请求和响应，请求就会关闭，HTTP1.0没有Host字段;<br>而HTTP1.1在同一个连接中可以传送多个请求和响应，多个请求可以重叠和同时进行，HTTP1.1必须有Host字段。</p>
+<ul>
+<li><strong>请求头</strong></li>
+</ul>
+<p>HTTP客户程序(例如浏览器)，向服务器发送请求的时候必须指明请求类型(一般是GET或者 POST)。如有必要，客户程序还可以选择发送其他的请求头。大多数请求头并不是必需的，但Content-Length除外。对于POST请求来说Content-Length必须出现。</p>
+<p>常见的请求头字段含义：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Accept：浏览器可接受的MIME类型。</span><br><span class="line">Accept-Charset：浏览器可接受的字符集。</span><br><span class="line">Accept-Encoding：浏览器能够进行解码的数据编码方式，比如gzip。Servlet能够向支持gzip的浏览器返回经gzip编码的HTML页面。许多情形下这可以减少5到10倍的下载时间。</span><br><span class="line">Accept-Language：浏览器所希望的语言种类，当服务器能够提供一种以上的语言版本时要用到。</span><br><span class="line">Authorization：授权信息，通常出现在对服务器发送的WWW-Authenticate头的应答中。</span><br><span class="line">Content-Length：表示请求消息正文的长度。</span><br><span class="line">Host：客户机通过这个头告诉服务器，想访问的主机名。Host头域指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。</span><br><span class="line">If-Modified-Since：客户机通过这个头告诉服务器，资源的缓存时间。只有当所请求的内容在指定的时间后又经过修改才返回它，否则返回304“Not Modified”应答。</span><br><span class="line">Referer：客户机通过这个头告诉服务器，它是从哪个资源来访问服务器的(防盗链)。包含一个URL，用户从该URL代表的页面出发访问当前请求的页面。</span><br><span class="line">User-Agent：User-Agent头域的内容包含发出请求的用户信息。浏览器类型，如果Servlet返回的内容与浏览器类型有关则该值非常有用。</span><br><span class="line">Cookie：客户机通过这个头可以向服务器带数据，这是最重要的请求头信息之一。</span><br><span class="line">Pragma：指定“no-cache”值表示服务器必须返回一个刷新后的文档，即使它是代理服务器而且已经有了页面的本地拷贝。</span><br><span class="line">From：请求发送者的email地址，由一些特殊的Web客户程序使用，浏览器不会用到它。</span><br><span class="line">Connection：处理完这次请求后是否断开连接还是继续保持连接。如果Servlet看到这里的值为“Keep- Alive”，或者看到请求使用的是HTTP 1.1(HTTP1.1默认进行持久连接)，它就可以利用持久连接的优点，当页面包含多个元素时(例如Applet，图片)，显著地减少下载所需要的时间。要实现这一点，Servlet需要在应答中发送一个Content-Length头，最简单的实现方法是：先把内容写入 ByteArrayOutputStream，然后在正式写出内容之前计算它的大小。</span><br><span class="line">Range：Range头域可以请求实体的一个或者多个子范围。例如，</span><br><span class="line">表示头500个字节：bytes=0-499</span><br><span class="line">表示第二个500字节：bytes=500-999</span><br><span class="line">表示最后500个字节：bytes=-500</span><br><span class="line">表示500字节以后的范围：bytes=500-</span><br><span class="line">第一个和最后一个字节：bytes=0-0,-1</span><br><span class="line">同时指定几个范围：bytes=500-600,601-999</span><br><span class="line">但是服务器可以忽略此请求头，如果无条件GET包含Range请求头，响应会以状态码206(PartialContent)返回而不是以200 (OK)。</span><br><span class="line">UA-Pixels，UA-Color，UA-OS，UA-CPU：由某些版本的IE浏览器所发送的非标准的请求头，表示屏幕大小、颜色深度、操作系统和CPU类型。</span><br></pre></td></tr></table></figure>
+
+<p><strong>空行作用是告诉服务器请求头部到此为止。</strong></p>
+<ul>
+<li><strong>请求体</strong></li>
+</ul>
+<p>若方法字段是GET，则此项为空，没有数据。<br>若方法字段是POST，则通常来说此处放置的就是要提交的数据。</p>
+<p>比如要使用POST方法提交一个表单，其中有user字段中数据为admin，password字段为123456，那么这里的请求数据就是 user=admin&amp;password=123456，使用&amp;来连接各个字段。</p>
+<p>总的来说，HTTP请求报文格式就如下图所示：</p>
+<p><img src="/2018/11/24/AFNetworking-Security/AFN_Sec4.png" alt="请求报文结构"><br><img src="/2018/11/24/AFNetworking-Security/AFN_Sec5.jpg" alt="请求报文结构"></p>
+<p>上面是POST方法，它的请求行URL段中一般是没有参数的，参数放在了报文体中。而GET方法的参数直接置于请求行URL中，报文体则为空。</p>
+<h3 id="响应报文结构"><a href="#响应报文结构" class="headerlink" title="响应报文结构"></a>响应报文结构</h3><p>HTTP响应报文也由三部分组成：响应行、响应头、响应体</p>
+<ul>
+<li><strong>响应行</strong><br>响应行一般由协议版本、状态码及其描述组成 比如 HTTP/1.1 200 OK<br>其中协议版本是HTTP/1.1或者HTTP/1.0，200是它的状态码，OK则为它的描述。</li>
+</ul>
+<p>常见状态码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">100~199：表示成功接收请求，要求客户端继续提交下一次请求才能完成整个处理过程。</span><br><span class="line"></span><br><span class="line">200~299：表示成功接收请求并已完成整个处理过程。常用200。</span><br><span class="line"></span><br><span class="line">300~399：为完成请求，客户需进一步细化请求。例如：请求的资源已经移动一个新地址、常用302(意味着你请求我，我让你去找别人),307和304(我不给你这个资源，自己拿缓存)。</span><br><span class="line"></span><br><span class="line">400~499：客户端的请求有错误，常用404(意味着你请求的资源在web服务器中没有)403(服务器拒绝访问，权限不够)。</span><br><span class="line"></span><br><span class="line">500~599：服务器端出现错误，常用500。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>响应头</strong></li>
+</ul>
+<p>响应头用于描述服务器的基本信息，以及数据的描述，服务器通过这些数据的描述信息，可以通知客户端如何处理等一会儿它回送的数据。</p>
+<p>设置HTTP响应头往往和状态码结合起来。例如，有好几个表示“文档位置已经改变”的状态代码都伴随着一个Location头，而401(Unauthorized)状态代码则必须伴随一个WWW-Authenticate头。然而，即使在没有设置特殊含义的状态代码时，指定应答头也是很有用的。应答头可以用来完成：设置Cookie，指定修改日期，指示浏览器按照指定的间隔刷新页面，声明文档的长度以便利用持久HTTP连接，……等等许多其他任务。</p>
+<p>常见的响应头字段含义。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Allow：服务器支持哪些请求方法(如GET、POST等)。</span><br><span class="line"></span><br><span class="line">Content-Encoding：文档的编码(Encode)方法。只有在解码之后才可以得到Content-Type头指定的内容类型。利用gzip压缩文档能够显著地减少HTML文档的下载时间。Java的GZIPOutputStream可以很方便地进行gzip压缩，但只有Unix上的Netscape和Windows上的IE4、IE5才支持它。因此，Servlet应该通过查看Accept-Encoding头(即request.getHeader(“Accept- Encoding”))检查浏览器是否支持gzip，为支持gzip的浏览器返回经gzip压缩的HTML页面，为其他浏览器返回普通页面。</span><br><span class="line"></span><br><span class="line">Content-Length：表示内容长度。只有当浏览器使用持久HTTP连接时才需要这个数据。如果你想要利用持久连接的优势，可以把输出文档写入 ByteArrayOutputStram，完成后查看其大小，然后把该值放入Content-Length头，最后通过byteArrayStream.writeTo(response.getOutputStream()发送内容。</span><br><span class="line"></span><br><span class="line">Content- Type：表示后面的文档属于什么MIME类型。Servlet默认为text/plain，但通常需要显式地指定为text/html。由于经常要设置 Content-Type，因此HttpServletResponse提供了一个专用的方法setContentType。</span><br><span class="line"></span><br><span class="line">Date：当前的GMT时间，例如，Date:Mon,31Dec200104:25:57GMT。Date描述的时间表示世界标准时，换算成本地时间，需要知道用户所在的时区。你可以用setDateHeader来设置这个头以避免转换时间格式的麻烦。</span><br><span class="line"></span><br><span class="line">Expires：告诉浏览器把回送的资源缓存多长时间，-1或0则是不缓存。</span><br><span class="line"></span><br><span class="line">Last-Modified：文档的最后改动时间。客户可以通过If-Modified-Since请求头提供一个日期，该请求将被视为一个条件GET，只有改动时间迟于指定时间的文档才会返回，否则返回一个304(Not Modified)状态。Last-Modified也可用setDateHeader方法来设置。</span><br><span class="line"></span><br><span class="line">Location：这个头配合302状态码使用，用于重定向接收者到一个新URI地址。表示客户应当到哪里去提取文档。Location通常不是直接设置的，而是通过HttpServletResponse的sendRedirect方法，该方法同时设置状态代码为302。</span><br><span class="line"></span><br><span class="line">Refresh：告诉浏览器隔多久刷新一次，以秒计。</span><br><span class="line"></span><br><span class="line">Server：服务器通过这个头告诉浏览器服务器的类型。Server响应头包含处理请求的原始服务器的软件信息。此域能包含多个产品标识和注释，产品标识一般按照重要性排序。Servlet一般不设置这个值，而是由Web服务器自己设置。</span><br><span class="line"></span><br><span class="line">Set-Cookie：设置和页面关联的Cookie。Servlet不应使用response.setHeader(“Set-Cookie”, …)，而是应使用HttpServletResponse提供的专用方法addCookie。</span><br><span class="line"></span><br><span class="line">Transfer-Encoding：告诉浏览器数据的传送格式。</span><br><span class="line"></span><br><span class="line">WWW-Authenticate：客户应该在Authorization头中提供什么类型的授权信息?在包含401(Unauthorized)状态行的应答中这个头是必需的。例如，response.setHeader(“WWW-Authenticate”, “BASIC realm=\”executives\”“)。注意Servlet一般不进行这方面的处理，而是让Web服务器的专门机制来控制受密码保护页面的访问。</span><br><span class="line"></span><br><span class="line">注：设置应答头最常用的方法是HttpServletResponse的setHeader，该方法有两个参数，分别表示应答头的名字和值。和设置状态代码相似，设置应答头应该在发送任何文档内容之前进行。</span><br><span class="line"></span><br><span class="line">setDateHeader方法和setIntHeadr方法专门用来设置包含日期和整数值的应答头，前者避免了把Java时间转换为GMT时间字符串的麻烦，后者则避免了把整数转换为字符串的麻烦。</span><br><span class="line"></span><br><span class="line">HttpServletResponse还提供了许多设置</span><br><span class="line"></span><br><span class="line">setContentType：设置Content-Type头。大多数Servlet都要用到这个方法。</span><br><span class="line"></span><br><span class="line">setContentLength：设置Content-Length头。对于支持持久HTTP连接的浏览器来说，这个函数是很有用的。</span><br><span class="line"></span><br><span class="line">addCookie：设置一个Cookie(Servlet API中没有setCookie方法，因为应答往往包含多个Set-Cookie头)。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>响应体</strong></li>
+</ul>
+<p>响应体就是响应的消息体，如果是纯数据就是返回纯数据，如果请求的是HTML页面，那么返回的就是HTML代码，如果是JS就是JS代码，如此之类。</p>
+<p>HTTP响应报文格式就如下图所示。</p>
+<p><img src="/2018/11/24/AFNetworking-Security/AFN_Sec6.jpg" alt="响应报文结构"></p>
 <p>HTTP是一套很简单、高效的通信协议。缺点就是通信数据都是明文发送的，很容易被拦截后造成破坏，所以使用HTTP协议传输隐私数据时非常不安全。于是网景公司在1994年设计了SSL（Secure Sockets Layer）协议用于对HTTP协议传输的数据进行加密，从而就诞生了HTTPS(Hyper Text Transfer Protocol over Secure Socket Layer)。</p>
 <h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>超文本传输安全协议是客户端与服务端之间通信安全的解决方案。<br>HTTP + 加密 + 认证 + 完整性保护 = HTTPS，其实HTTPS就是身披SSL外壳的HTTP。<br>HTTPS采用共享密钥加密（对称）和公开密钥加密（非对称）两者并用的混合加密机制。</p>
 <h3 id="HTTPS工作流程"><a href="#HTTPS工作流程" class="headerlink" title="HTTPS工作流程"></a>HTTPS工作流程</h3><p><img src="/2018/11/24/AFNetworking-Security/AFN_Sec1.png" alt="完整的HTTPS请求流程"><br><strong>①. 客户端发起HTTPS请求</strong><br>用户在浏览器里输入一个https网址，然后连接到server的443端口。</p>
@@ -490,7 +539,7 @@ height:50vh;
             <p>原文作者：<a href="http://onzxgway.github.io">朱献国</a>
             <p>原文链接：<a href="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/">http://onzxgway.github.io/2018/11/24/AFNetworking-Security/</a>
             <p>发表日期：<a href="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/">November 24th 2018, 10:30:07 am</a>
-            <p>更新日期：<a href="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/">October 26th 2020, 7:55:04 pm</a>
+            <p>更新日期：<a href="http://onzxgway.github.io/2018/11/24/AFNetworking-Security/">November 15th 2020, 2:57:57 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -631,7 +680,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP"><span class="toc-number">1.</span> <span class="toc-text">HTTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS"><span class="toc-number">2.</span> <span class="toc-text">HTTPS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">HTTPS工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS%E6%9B%B4%E5%8A%A0%E8%AF%A6%E7%BB%86%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text">HTTPS更加详细的流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFSecurityPolicy"><span class="toc-number">3.</span> <span class="toc-text">AFSecurityPolicy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AFSecurityPolicy-h"><span class="toc-number">3.1.</span> <span class="toc-text">AFSecurityPolicy.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AFSecurityPolicy-m"><span class="toc-number">3.2.</span> <span class="toc-text">AFSecurityPolicy.m</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP"><span class="toc-number">1.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">请求报文结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">响应报文结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS"><span class="toc-number">2.</span> <span class="toc-text">HTTPS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">HTTPS工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTPS%E6%9B%B4%E5%8A%A0%E8%AF%A6%E7%BB%86%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text">HTTPS更加详细的流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFSecurityPolicy"><span class="toc-number">3.</span> <span class="toc-text">AFSecurityPolicy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AFSecurityPolicy-h"><span class="toc-number">3.1.</span> <span class="toc-text">AFSecurityPolicy.h</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AFSecurityPolicy-m"><span class="toc-number">3.2.</span> <span class="toc-text">AFSecurityPolicy.m</span></a></li></ol></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -644,10 +693,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
     
     
     
