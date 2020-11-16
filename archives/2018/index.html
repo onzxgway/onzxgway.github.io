@@ -393,10 +393,11 @@
                 <span>AFNetworking解析</span>
         </a>
         <div class="abstract-content">
-            第一步使用AFNetworking的第一步，就是创建AFHTTPSessionManager对象，方式如下：
-1AFHTTPSessionManager *sessionManager = [AFHTTPSessionManager manager];
-AFHTTPSessionManager继承自AFURLSessionManager。这句代码完成了如下工作：1，在AFURLSessionManager类中：
-123456// 属性1，sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguratio...
+            框架结构NSURLSession
+123AFURLSessionManagerAFHTTPSessionManager (使用入口，父类是AFURLSessionManager)
+
+Serialization
+12345678910111213141516171819202122232425&lt;AFURLRequestSerialization&gt;	AFHTTPRequestSerializer			AFJSONRequestSerializer (父类是AFHTTPRequestSerializer)				AFPropertyListRequestSerializer (父类...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
