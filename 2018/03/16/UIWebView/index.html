@@ -28,8 +28,12 @@
 <meta property="og:description" content="基于UIWebView的混合编程是指同时使用原生的控件和UIWebView来展现应用界面。合理地使用该方案可以保证应用既有原生界面的流畅交互效果，又有Web界面的良好的动态修改和多平台复用的优势。 混合编程简介基于UIWebView的混合编程本来是一个挺普通和常见的技术框架，但是自从国外开始用Hybird来称呼它时，这个技术突然间就变得“高大上”起来。国内的许多应用都采用了基于UIWebView的">
 <meta property="og:locale">
 <meta property="og:image" content="http://onzxgway.github.io/2018/03/16/UIWebView/UIWebView1.png">
+<meta property="og:image" content="http://onzxgway.github.io/2018/03/16/UIWebView/UIWebView5.png">
+<meta property="og:image" content="http://onzxgway.github.io/2018/03/16/UIWebView/UIWebView2.png">
+<meta property="og:image" content="http://onzxgway.github.io/2018/03/16/UIWebView/UIWebView3.png">
+<meta property="og:image" content="http://onzxgway.github.io/2018/03/16/UIWebView/UIWebView4.png">
 <meta property="article:published_time" content="2018-03-16T13:59:46.000Z">
-<meta property="article:modified_time" content="2020-11-16T23:47:20.964Z">
+<meta property="article:modified_time" content="2020-11-17T14:45:42.748Z">
 <meta property="article:author" content="朱献国">
 <meta property="article:tag" content="iOS,Objective-C,Swift,OC,朱献国">
 <meta name="twitter:card" content="summary">
@@ -281,7 +285,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.5k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">3.3k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -434,6 +438,33 @@ height:50vh;
 <h2 id="Objective-C语言和JavaScript语言相互调用"><a href="#Objective-C语言和JavaScript语言相互调用" class="headerlink" title="Objective-C语言和JavaScript语言相互调用"></a>Objective-C语言和JavaScript语言相互调用</h2><p>原生界面与UIWebView相互调用示意图如下所示。</p>
 <p><img src="/2018/03/16/UIWebView/UIWebView1.png" alt="调用示意图"></p>
 <p>在UIWebView通过一次性加载HTML内容获得初始界面后，对于复杂的应用，我们还需要在原生界面和UIWebView界面相互调用传递数据。但是，iOS的UIWebView控件在与原生界面交互数据这方面功能较弱，所以我们需要详细看一下原生界面和UIWebView界面是如何做到相互调用的。因为原生界面是用Objective-C语言写的，而UIWebView界面是用JavaScript写的，所以我们讨论的主要就是如何做Objective-C语言和JavaScript语言之间的跨语言相互调用。</p>
+<p>Objective-C语言调用JavaScript语言，是通过UIWebView的-(NSString *)stringByEvaluatingJavaScriptFromString: (NSString *)script;方法实现的。该方法向UIWebView传递一段需要执行的JavaScript文件，最后获得执行结果。</p>
+<p>JavaScript语言调用Objective-C语言，并没有现成的API，但是业界有一种“曲线救国”的方法，间接达到了调用的效果。该方法是利UIWebView的特性：在UIWebView内发起的所有网络请求，都可以通过delegate函数在原生界面得到通知。这样我们在UIWebView内发起一个特殊的网络请求，请求加载的网址内容通常不是真实的地址，地址常常类似这样: gap://methodname?argument0</p>
+<p>于是在UIWebView的delegate函数中，我们只要发现是gap://开头的地址，就不进行内容的加载，转而执行相应的调用逻辑。这也是著名的Cordova (PhoneGap的核心代码，贡献给了Apache基金会)框架调用原生逻辑的机制。以下是原生端截获特殊网络请求进行处理的示例代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// Objective-C语言</span><br><span class="line">- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType &#123;</span><br><span class="line">    NSURL *url = [request URL];</span><br><span class="line">    <span class="keyword">if</span> ([[url scheme] isEqualToString:@<span class="string">&quot;gap&quot;</span>]) &#123;</span><br><span class="line">    //在这里做JavaScript调Objective-C的事情</span><br><span class="line">    // ....</span><br><span class="line">    //做完,之后用如下方法调回JavaScript</span><br><span class="line">        [webView stringByEvaluatingJavaScriptFromString:@<span class="string">&quot;alert(&#x27;done&#x27;)&quot;</span>];</span><br><span class="line">        <span class="built_in">return</span> NO;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在UIWebView中发起一次特殊的网络请求也有很多种办法，最合适的办法是创建一个临时的隐藏的iFrame,在iFrame中加载这个特殊的网络请求。代码如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// JavaScript语言</span><br><span class="line">// 通知iPhone UIWebView加载url对应的资源</span><br><span class="line">// url的格式为：gap://something</span><br><span class="line"><span class="keyword">function</span> loadURL(url) (</span><br><span class="line">    var iFrame;</span><br><span class="line">    iFrame = document.createElement(<span class="string">&quot;iFrame&quot;</span>);</span><br><span class="line">    iFrame.setAttribute(<span class="string">&#x27;src&quot;, url);</span></span><br><span class="line"><span class="string">    iFrame.setAttribute(&quot;style&quot;, &quot;display:none;&quot;);</span></span><br><span class="line"><span class="string">    iFrame.setAttribute(&quot;height&quot;, &quot;Opx&quot;);</span></span><br><span class="line"><span class="string">    iFrame.setAttribute(&quot;width&quot;, &quot;Opx&quot;);</span></span><br><span class="line"><span class="string">    iFrame.setAttribute(&quot;frameborder&quot;, &quot;0&quot;);</span></span><br><span class="line"><span class="string">    document.body.appendChild(iFrame);</span></span><br><span class="line"><span class="string">    //发起请求后这个iFrame就没用了，所以把它从dom上移除掉</span></span><br><span class="line"><span class="string">    iFrame.parentNode.removeChild(iFrame);</span></span><br><span class="line"><span class="string">    iFrame = null;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要特别注意的是，通过修改document.location也可以达到发起网络请求的效果。但是经过我们试验，修改document.location有一个很严重的问题，就是如果我们连续两次修改document.location的话，在原生界面的delegate方法中，只能截获后面那次请求，前一次请求由于很快被替换掉，所以被忽略掉了。所以该方法无法稳定地多次向原生界面发起调用。<br>如果你不想自己实现具体的相互调用，你也可以使用开源的<a target="_blank" rel="noopener" href="https://github.com/marcuswestin/WebViewJavaScriptBridge">WebViewJavaScriptBridge</a>,它能帮你实现上面我们提到的 相互调用功能。</p>
+<h2 id="如何传递参数"><a href="#如何传递参数" class="headerlink" title="如何传递参数"></a>如何传递参数</h2><p>以上的示例代码为了讲清楚机制，所以只是示例了最简单的相互调用。但实际上Objective-C语言和JavaScript语言相互调用时，常常需要传递参数。</p>
+<p>参数传递最简单的方式是将参数作为URL的一部分，放到iFrame的src里面。这样UIWebView通过截取分析URL后面的内容即可获得参数。但是这样的问题是，该方法只能传递简单的参数信息，如果参数是一个很复杂的对象，那么这个URL的编码将会很复杂。</p>
+<p>Cordova的技术方案，是用JSON传递参数，将JSON放在UIWebView中的一个全局数组中，当UIWebView需要读取参数时，通过读取这个全局数组来获得相应的参数。</p>
+<h2 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h2><p>因为iOS SDK并非“天生”就支持UIWebView和原生界面相互调用,所以这里面还有同步异步的问题。细心的读者就能发现,UIWebView调用原生界面是通过插入一个iFrame,这个iFrame插入后就完了，执行的结果需要原生界面另外用stringByEvaluatingJavaScriptFromString方法通知UIWebView,所以这是一个异步的调用。<br>而stringByEvaluatingJavaScriptFromString方法本身会直接返回一个NSString类型的执行结果，所以这显然是一个同步调用。<br>所以UIWebView调用原生界面是异步，原生界面调用UIWebView是同步。在处理一些逻辑的时候，不可避免地需要考虑这个特点。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><h3 id="线程阻塞问题"><a href="#线程阻塞问题" class="headerlink" title="线程阻塞问题"></a>线程阻塞问题</h3><p>我们在开发中发现，当在Objective-C语言中调用stringByEvaluatingJavaScriptFromString方法时，可能由于JavaScript是单线程的原因，会阻塞原有JavaScript代码的执行。这里我们的解决办法是在JavaScript端用defer将iFrame的插入延后执行。</p>
+<h3 id="主线程的问题"><a href="#主线程的问题" class="headerlink" title="主线程的问题"></a>主线程的问题</h3><p>UIWebView的stringByEvaluatingJavaScriptFromString方法必须在主线程中执行，而主线程的执行时间过长就会阻塞UI的更新。所以我们应该尽量让stringByEvaluatingJavaScriptFromString方法执行时间短。</p>
+<h3 id="键盘控制"><a href="#键盘控制" class="headerlink" title="键盘控制"></a>键盘控制</h3><p>做iOS开发的都知道，当我们需要键盘显示在某个控件上时，可以调用[obj becomeFirstResponder]方法来让键盘出来，并且光标输入焦点出现在该控件上。<br>但是这个方法对于UIWebView并不适用。也就是说，我们无法通过程序控制让光标输入焦点出现在UIWebView上。关于这个问题，我在Stack Overflow专门问了一下，还是没有得到很好的解决办法。</p>
+<h3 id="CommonJS-规范"><a href="#CommonJS-规范" class="headerlink" title="CommonJS 规范"></a>CommonJS 规范</h3><p>CommonJS是一个模块加载的规范，而AMD是该规范的一个草案。CommonJS AMD规范描述了模块化的定义、依赖关系、引用关系及加载机制，其规范原文在这里: <a target="_blank" rel="noopener" href="http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition">http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition</a> 它被requireJS，Nodejs，Dojo，jQuery等开源框架广泛使用。<br>AMD规范需要用目录层级当作包层次，这一点就象Java—样。所以我们需要iOS打包后的ipa资源文件中具有资源目录层级关系。具体做法非常简单：只需要将该目录拖入工程中， 然后选择”Create groups for any added folders”，这样目录层级就能够打包到ipa 文件中。</p>
+<h2 id="使用Safari进行调试"><a href="#使用Safari进行调试" class="headerlink" title="使用Safari进行调试"></a>使用Safari进行调试</h2><p>由于UIWebView的使用实在广泛，所以从2012年开始，苹果支持用Safari浏览器直接连接到模拟器或真机中的UIWebView来进行相关HTML页面，以及JavaScript逻辑的调试。</p>
+<p>在使用之前，首先需要打开Safari的调试模式，在Safari的菜单中，选择”Safari” —&gt; “Preferences” —&gt; “Advanced”，勾选上Show Develop menu in menu bar”选项，如下图所示。</p>
+<p><img src="/2018/03/16/UIWebView/UIWebView5.png" alt="Safari调试"></p>
+<p>同时需要在iPhone模拟器或真机的设置上把调试模式打开，在iPhone模拟器或真机中打开应用设置界面，选择”Safari” —&gt; “高级” —&gt; “Web检査器”即可，如下图所示。</p>
+<p><img src="/2018/03/16/UIWebView/UIWebView2.png" alt="Safari调试"></p>
+<p>之后启动模拟器或者真机，通过USB连上电脑时，Safari的”Develop”菜单下就会多出相应的菜单项，如下图所示。</p>
+<p><img src="/2018/03/16/UIWebView/UIWebView3.png" alt="Safari调试"></p>
+<p>Safari连接上UIWebView后，我们可以在Safari中直接修改HTML的代码、css效果，以及调试JavaScript所有的效果都可以立即在UIWebView上看到。Safari也提供了”审査元素”功能，可以通过下图中的小手图标完成，单击小手图标，然后在Web上想査看的元素上单击一下，就可以跳到该元素对应的DOM节点上。</p>
+<p><img src="/2018/03/16/UIWebView/UIWebView4.png" alt="Safari调试"></p>
+<p>参考资料：《iOS开发进阶》</p>
 
     </article>
     <!-- license  -->
@@ -442,7 +473,7 @@ height:50vh;
             <p>原文作者：<a href="http://onzxgway.github.io">朱献国</a>
             <p>原文链接：<a href="http://onzxgway.github.io/2018/03/16/UIWebView/">http://onzxgway.github.io/2018/03/16/UIWebView/</a>
             <p>发表日期：<a href="http://onzxgway.github.io/2018/03/16/UIWebView/">March 16th 2018, 9:59:46 pm</a>
-            <p>更新日期：<a href="http://onzxgway.github.io/2018/03/16/UIWebView/">November 17th 2020, 7:47:20 am</a>
+            <p>更新日期：<a href="http://onzxgway.github.io/2018/03/16/UIWebView/">November 17th 2020, 10:45:42 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -583,7 +614,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">混合编程简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E6%B8%B2%E6%9F%93HTML%E7%95%8C%E9%9D%A2"><span class="toc-number">2.</span> <span class="toc-text">使用模板引擎渲染HTML界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objective-C%E8%AF%AD%E8%A8%80%E5%92%8CJavaScript%E8%AF%AD%E8%A8%80%E7%9B%B8%E4%BA%92%E8%B0%83%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">Objective-C语言和JavaScript语言相互调用</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E7%BC%96%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">混合编程简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E%E6%B8%B2%E6%9F%93HTML%E7%95%8C%E9%9D%A2"><span class="toc-number">2.</span> <span class="toc-text">使用模板引擎渲染HTML界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objective-C%E8%AF%AD%E8%A8%80%E5%92%8CJavaScript%E8%AF%AD%E8%A8%80%E7%9B%B8%E4%BA%92%E8%B0%83%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">Objective-C语言和JavaScript语言相互调用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">如何传递参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%92%8C%E5%BC%82%E6%AD%A5"><span class="toc-number">5.</span> <span class="toc-text">同步和异步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">6.</span> <span class="toc-text">注意事项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E9%98%BB%E5%A1%9E%E9%97%AE%E9%A2%98"><span class="toc-number">6.1.</span> <span class="toc-text">线程阻塞问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E7%BA%BF%E7%A8%8B%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">6.2.</span> <span class="toc-text">主线程的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6"><span class="toc-number">6.3.</span> <span class="toc-text">键盘控制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CommonJS-%E8%A7%84%E8%8C%83"><span class="toc-number">6.4.</span> <span class="toc-text">CommonJS 规范</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Safari%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95"><span class="toc-number">7.</span> <span class="toc-text">使用Safari进行调试</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -596,8 +627,6 @@ top:50vh;
     <div class="sidebar-content sidebar-content-show-archive">
           <div class="sidebar-panel-archives">
     <!-- 在ejs中将archive按照时间排序 -->
-    
-    
     
     
     
