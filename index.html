@@ -528,6 +528,59 @@ Serialization
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/04/16/arithmetic/" >
+            
+                <span>算法基础</span>
+        </a>
+        <div class="abstract-content">
+            算法三原则1，有穷性。    能在有限的步奏，有限的时间内完成。2，确定性。    对相同的输入，产生唯一的输出，没有歧义。3，可行性。    算法是可行的，在当前设备，经济水平等条件下是可用的。
+算法分析1，时间复杂度。    * 大O：最坏情况下的时间复杂度。（如快速排序：O(n^2)，期望nlogn）    * 忽略常数，用来描述随着问题规模的增长，所需时间增长的速率/数量级。 如：1-k -&gt; O(1)，k是一个常数。
+2，空间复杂度。    * 同时间复杂度。
+算法极限对于摸一个问题，算法能做到的也是有极限的，例如：通常基于遍历的算法，复杂度必定大于等于O(n)。
+
+不需...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/16</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/03/16/UIWebView/" >
+            
+                <span>基于UIWebView的混合编程</span>
+        </a>
+        <div class="abstract-content">
+            基于UIWebView的混合编程是指同时使用原生的控件和UIWebView来展现应用界面。合理地使用该方案可以保证应用既有原生界面的流畅交互效果，又有Web界面的良好的动态修改和多平台复用的优势。
+混合编程简介基于UIWebView的混合编程本来是一个挺普通和常见的技术框架，但是自从国外开始用Hybird来称呼它时，这个技术突然间就变得“高大上”起来。国内的许多应用都采用了基于UIWebView的混合编程技术，这些页面都具有以下共同的特点：
+1.排版复杂。通常包括图片和文字的混排，还有可能有链接需要支持点击。如果不用 UIWebView，自己用原生控件通过拼装来实现，由于界面元素太多，做...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/16</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/02/08/object-copy/" >
             
                 <span>对象拷贝</span>
@@ -583,61 +636,10 @@ NSOperation需求一：用NSOperation实现三个线程任务A、B、C，它们�
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/12/09/CocoaPods/" >
-            
-                <span>使用CocoaPods做依赖管理</span>
-        </a>
-        <div class="abstract-content">
-            每种语言发展到一定阶段，都会出现相应的依赖管理工具，例如Java语言的Maven、Node.js的npm等。本篇介绍iOS项目的依赖管理工具CocoaPods。
-CocoaPods简介随着iOS开发者的增多，业界也出现了为iOS程序提供依赖管理的工具，它的名字叫作CocoaPods。CocoaPods 项目的源码在 Github 上管理。该项目开始于2011年8月，经过多年发展，现在已经成为iOS开发事实上的依赖管理标准工具。 开发iOS项目不可避免地要使用第三方开源库，CocoaPods的出现使得我们可以节省设置和 更新第三方开源库的时间。
-在使用CocoaPods以前，我需要：1.把...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/12/09</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/11/08/Block%E5%9F%BA%E7%A1%80/" >
-            
-                <span>Block基础</span>
-        </a>
-        <div class="abstract-content">
-            什么是blockblock就是一个里面存储了指向函数体中包含定义block时的代码块的函数指针，以及block外部上下文变量等信息的结构体。
-block内存分布三种类型block在Objective-C语言中，有三种类型的block。1，__NSGlobalBlock__  保存在全局区，不会访问任何外部变量。2，__NSStackBlock__   保存在栈中，当函数返回时会被销毁。3，__NSMallocBlock__  保存在堆中，当引用计数为0时会被销毁。
-在MRC模式下，运行如下代码，从log中可以证明存在三种类型的block。
-123456789101112131415161...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/11/08</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
     <nav class="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">NEXT &gt;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">NEXT &gt;</a>
     </nav>
     
 </main>
@@ -1051,9 +1053,39 @@ block内存分布三种类型block在Objective-C语言中，有三种类型的bl
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 19
+        Total : 21
         </div>
         <!-- search  -->
         
@@ -1113,6 +1145,16 @@ block内存分布三种类型block在Objective-C语言中，有三种类型的bl
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2018/10/22/AFNetworking%E8%A7%A3%E6%9E%90/" >AFNetworking解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/16</span><a class="archive-post-title" href= "/2018/04/16/arithmetic/" >算法基础</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/16</span><a class="archive-post-title" href= "/2018/03/16/UIWebView/" >基于UIWebView的混合编程</a>
         </li>
     
     
