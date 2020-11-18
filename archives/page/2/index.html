@@ -355,6 +355,38 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/01/16/Multi-threading-2/" >
+            
+                <span>iOS并发编程进阶</span>
+        </a>
+        <div class="abstract-content">
+            NSThread需求一：用NSThread实现三个线程任务A、B、C，它们结束之后，再执行D、E任务。思路：用KVO监听NSThread实例的isFinished属性。
+1demo
+需求二：把有三个参数的函数放在子线程执行。
+1NSThread暂时实现不了。
+
+NSOperation需求一：用NSOperation实现三个线程任务A、B、C，它们结束之后，再执行D、E任务。
+
+方式一：先执行封装了A + B + C操作的NSBlockOperation，KVO监听属性finished=YES时，再执行封装了D + E操作的NSBlockOperation对象。
+
+123456789101...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/16</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2017/12/09/CocoaPods/" >
             
                 <span>使用CocoaPods做依赖管理</span>
@@ -577,33 +609,6 @@ log信息如下：2017-03-24 01:47:29 +0000打印的时间是格林尼治标准�
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/03/24</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/03/22/Multi-threading-1/" >
-            
-                <span>iOS并发编程基础</span>
-        </a>
-        <div class="abstract-content">
-            并发 描述的概念是同时有多个任务在执行，这些任务在单核CPU上以分时的形式在运行（宏观上可以看成多个任务同时执行），而在多核CPU上才是真正的同时执行。在iOS开发中，Apple提供了四种**API(pthread,NSThread,GCD,NSOperation)**用于并发编程。本文以讲解四种API的使用方法为切入点，带你了解多线程的全貌。
-
-在学习并发编程之前，首先我们要知道线程的概念，以及线程的一些相关基础知识，这是学习并发编程的基础。
-
-什么是线程线程（thread）是进程的基本单位，一个进程包含一个或多个线程（至少包含一个），操作系统的调度器可以直接调度线程。所有的并发编程A...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/03/22</span>
             </div>
             <!-- tags  -->
             
@@ -958,9 +963,20 @@ log信息如下：2017-03-24 01:47:29 +0000打印的时间是格林尼治标准�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 21
+        Total : 22
         </div>
         <!-- search  -->
         
@@ -1001,6 +1017,11 @@ log信息如下：2017-03-24 01:47:29 +0000打印的时间是格林尼治标准�
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/2019/03/27/runtime1/" >Objective-C对象模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/18</span><a class="archive-post-title" href= "/2019/01/18/DesignPatterns/" >设计模式</a>
         </li>
     
     
