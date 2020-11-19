@@ -368,6 +368,35 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/02/08/object-copy/" >
+            
+                <span>对象拷贝</span>
+        </a>
+        <div class="abstract-content">
+            NSObject类提供了两个用于拷贝的方法：- (id)copy 和- (id)mutableCopy，这两个方法都可以复制已有对象生成副本。
+由于Objective-C中几乎所有的类都继承自NSObject，所以类中都有copy和mutableCopy两个方法，那么是否就意味着对象可以直接调用这两个方法进行拷贝了呢？
+
+定义一个AMPerson类继承自NSObject 进行测试，代码如下：
+
+12AMPerson *p1 = [[AMPerson alloc] init];AMPerson *p2 = [p1 copy];
+运行程序，发生崩溃，并输出以下错误信息：-[AMPerson ...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/08</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/01/16/Multi-threading-2/" >
             
                 <span>iOS并发编程进阶</span>
@@ -591,37 +620,6 @@ Sandbox结构Sandbox结构如下：
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/08</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/03/24/TimeANdDate/" >
-            
-                <span>时间与日期（上）</span>
-        </a>
-        <div class="abstract-content">
-            NSDateNSDate表示公历（阳历）的格林尼治（G.M.T.）时间。
-初始化方法
-- (instancetype)init
-
-默认的初始化方法，返回当前时间，也可以直接调用+ (instancetype)date方法
-12345NSDate *date = [[NSDate alloc] init];// NSDate *date = [NSDate date]; // 等同于上句NSLog(@&quot;%@&quot;,date);
-log信息如下：2017-03-24 01:47:29 +0000打印的时间是格林尼治标准时间，不是我们所在的东八区时间。
-
-- (instance...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/03/24</span>
             </div>
             <!-- tags  -->
             
@@ -1084,9 +1082,26 @@ log信息如下：2017-03-24 01:47:29 +0000打印的时间是格林尼治标准�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 22
+        Total : 23
         </div>
         <!-- search  -->
         
@@ -1151,6 +1166,11 @@ log信息如下：2017-03-24 01:47:29 +0000打印的时间是格林尼治标准�
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2018/10/22/AFNetworking%E8%A7%A3%E6%9E%90/" >AFNetworking解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/19</span><a class="archive-post-title" href= "/2018/05/19/AppStatus/" >App的不同状态</a>
         </li>
     
     

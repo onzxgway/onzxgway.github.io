@@ -539,6 +539,33 @@ Serialization
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/05/19/AppStatus/" >
+            
+                <span>App的不同状态</span>
+        </a>
+        <div class="abstract-content">
+            对于iOS App来说，知道当前的状态是至关重要的，因为iOS对系统资源有着相当严格的限制，app在不同的状态下可执行的操作也是不同的。在当程序处于后台时，系统对app所能执行的操作做了严格的限制，以提高电池的使用时间和正在运行程序的用户体验。当在前后台切换app时，系统会发出相应的通知，在这些通知中可以改变app的操作。
+当你实现程序代码时，应该遵循下面这些建议：
+1.（必须）当发生状态转换时进行恰当的响应处理，如果不进行处理操作可能会导致数据的丢失和不好的用户体验。
+2.（必须）当app转入后台时，确保app所执行的操作是正确地被循序的操作（后台允许5中操作，详细见下面）
+3.（建议...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/19</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/04/16/arithmetic/" >
             
                 <span>算法基础</span>
@@ -580,35 +607,6 @@ Serialization
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/03/16</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/02/08/object-copy/" >
-            
-                <span>对象拷贝</span>
-        </a>
-        <div class="abstract-content">
-            NSObject类提供了两个用于拷贝的方法：- (id)copy 和- (id)mutableCopy，这两个方法都可以复制已有对象生成副本。
-由于Objective-C中几乎所有的类都继承自NSObject，所以类中都有copy和mutableCopy两个方法，那么是否就意味着对象可以直接调用这两个方法进行拷贝了呢？
-
-定义一个AMPerson类继承自NSObject 进行测试，代码如下：
-
-12AMPerson *p1 = [[AMPerson alloc] init];AMPerson *p2 = [p1 copy];
-运行程序，发生崩溃，并输出以下错误信息：-[AMPerson ...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/08</span>
             </div>
             <!-- tags  -->
             
@@ -974,9 +972,26 @@ Serialization
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 22
+        Total : 23
         </div>
         <!-- search  -->
         
@@ -1041,6 +1056,11 @@ Serialization
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2018/10/22/AFNetworking%E8%A7%A3%E6%9E%90/" >AFNetworking解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/19</span><a class="archive-post-title" href= "/2018/05/19/AppStatus/" >App的不同状态</a>
         </li>
     
     

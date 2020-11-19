@@ -368,6 +368,37 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2017/03/24/TimeANdDate/" >
+            
+                <span>时间与日期（上）</span>
+        </a>
+        <div class="abstract-content">
+            NSDateNSDate表示公历（阳历）的格林尼治（G.M.T.）时间。
+初始化方法
+- (instancetype)init
+
+默认的初始化方法，返回当前时间，也可以直接调用+ (instancetype)date方法
+12345NSDate *date = [[NSDate alloc] init];// NSDate *date = [NSDate date]; // 等同于上句NSLog(@&quot;%@&quot;,date);
+log信息如下：2017-03-24 01:47:29 +0000打印的时间是格林尼治标准时间，不是我们所在的东八区时间。
+
+- (instance...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/03/24</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2017/03/22/Multi-threading-1/" >
             
                 <span>iOS并发编程基础</span>
@@ -869,9 +900,26 @@ height:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 22
+        Total : 23
         </div>
         <!-- search  -->
         
@@ -936,6 +984,11 @@ height:50vh;
     
         <li class="archive-post-item">
             <span class="archive-post-date">10/22</span><a class="archive-post-title" href= "/2018/10/22/AFNetworking%E8%A7%A3%E6%9E%90/" >AFNetworking解析</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/19</span><a class="archive-post-title" href= "/2018/05/19/AppStatus/" >App的不同状态</a>
         </li>
     
     

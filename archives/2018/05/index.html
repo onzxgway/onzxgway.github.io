@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2020/03/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2018/05/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,19 +355,21 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/03/04/RunLoop/" >
+        <a class="abstract-title" href = "/2018/05/19/AppStatus/" >
             
-                <span>RunLoop</span>
+                <span>App的不同状态</span>
         </a>
         <div class="abstract-content">
-            RunLoop是 iOS  开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。
-RunLoop 的概念一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：
-1234567function loop() &#123;    initialize();    do &#123;        var message = g...
+            对于iOS App来说，知道当前的状态是至关重要的，因为iOS对系统资源有着相当严格的限制，app在不同的状态下可执行的操作也是不同的。在当程序处于后台时，系统对app所能执行的操作做了严格的限制，以提高电池的使用时间和正在运行程序的用户体验。当在前后台切换app时，系统会发出相应的通知，在这些通知中可以改变app的操作。
+当你实现程序代码时，应该遵循下面这些建议：
+1.（必须）当发生状态转换时进行恰当的响应处理，如果不进行处理操作可能会导致数据的丢失和不好的用户体验。
+2.（必须）当app转入后台时，确保app所执行的操作是正确地被循序的操作（后台允许5中操作，详细见下面）
+3.（建议...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/04</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/19</span>
             </div>
             <!-- tags  -->
             
