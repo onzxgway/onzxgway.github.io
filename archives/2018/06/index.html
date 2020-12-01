@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2018/02/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2018/06/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,23 +355,18 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2018/02/08/object-copy/" >
+        <a class="abstract-title" href = "/2018/06/23/Cateory/" >
             
-                <span>对象拷贝</span>
+                <span>Cateory的本质</span>
         </a>
         <div class="abstract-content">
-            NSObject类提供了两个用于拷贝的方法：- (id)copy 和- (id)mutableCopy，这两个方法都可以复制已有对象生成副本。
-由于Objective-C中几乎所有的类都继承自NSObject，所以类中都有copy和mutableCopy两个方法，那么是否就意味着对象可以直接调用这两个方法进行拷贝了呢？
-
-定义一个AMPerson类继承自NSObject 进行测试，代码如下：
-
-12AMPerson *p1 = [[AMPerson alloc] init];AMPerson *p2 = [p1 copy];
-运行程序，发生崩溃，并输出以下错误信息：-[AMPerson ...
+            Category的使用使用下面的这一段简单代码来分析：
+12345678910111213141516171819202122232425262728293031@interface Animal (One) &lt;NSCopying&gt;- (void)jump;+ (void)name;@property (nonatomic, assign) int age;@end@implementation Animal (One)- (void)jump &#123;    NSLog(@&quot;Animal: jump&quot;);&#125;+ (void)name &#12...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/02/08</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/23</span>
             </div>
             <!-- tags  -->
             
