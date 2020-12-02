@@ -355,31 +355,6 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/03/04/RunLoop/" >
-            
-                <span>RunLoop</span>
-        </a>
-        <div class="abstract-content">
-            RunLoop是 iOS  开发中非常基础的一个概念，这篇文章将从 CFRunLoop 的源码入手，介绍 RunLoop 的概念以及底层实现原理。之后会介绍一下在 iOS 中，苹果是如何利用 RunLoop 实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。
-RunLoop 的概念一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：
-1234567function loop() &#123;    initialize();    do &#123;        var message = g...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/04</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href = "/2019/11/02/runtime3/" >
             
                 <span>runtime(2)</span>
@@ -443,6 +418,31 @@ RunLoop 的概念一般来讲，一个线程一次只能执行一个任务，执
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/27</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2019/03/04/RunLoop/" >
+            
+                <span>RunLoop</span>
+        </a>
+        <div class="abstract-content">
+            RunLoop是iOS开发中非常基础的一个概念，这篇文章将从CFRunLoop的源码入手，介绍RunLoop的概念以及底层实现原理。之后会介绍一下在iOS中，苹果是如何利用RunLoop实现自动释放池、延迟回调、触摸事件、屏幕刷新等功能的。
+RunLoop的概念一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：
+1234567function loop() &#123;    initialize();    do &#123;        var message = get_next_mess...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/03/04</span>
             </div>
             <!-- tags  -->
             
@@ -1014,20 +1014,6 @@ Serialization
     
     
     
-    <div class="archive-year"> 2020 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/04</span><a class="archive-post-title" href= "/2020/03/04/RunLoop/" >RunLoop</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
     
@@ -1044,6 +1030,11 @@ Serialization
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/27</span><a class="archive-post-title" href= "/2019/03/27/runtime1/" >Objective-C对象模型</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/04</span><a class="archive-post-title" href= "/2019/03/04/RunLoop/" >RunLoop</a>
         </li>
     
     
