@@ -417,10 +417,13 @@ Serialization
     <article class="index-post">
         <a class="abstract-title" href = "/2018/09/05/KvoAndKvc/" >
             
-                <span>KvoAndKvc</span>
+                <span>KVO、KVC</span>
         </a>
         <div class="abstract-content">
-            
+            KVOKVO的使用KVO(Key Value Observing)，键值监听，用于监听对象的属性值的改变。使用方式如下：
+12345678910// 被监听对象@interface Animal : NSObject@property(nonatomic, copy) NSString *name;@end@implementation Animal@end
+
+123456789101112131415161718- (void)viewDidLoad &#123;    [super viewDidLoad];        Animal *animal = [[Animal allo...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -438,13 +441,45 @@ Serialization
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2018/06/23/Cateory/" >
+        <a class="abstract-title" href = "/2018/07/05/loadAndinitialize/" >
             
-                <span>Cateory的本质</span>
+                <span>load、initialize</span>
         </a>
         <div class="abstract-content">
-            Category的使用使用下面的这一段简单代码来分析：
-12345678910111213141516171819202122232425262728293031@interface Animal (One) &lt;NSCopying&gt;- (void)jump;+ (void)name;@property (nonatomic, assign) int age;@end@implementation Animal (One)- (void)jump &#123;    NSLog(@&quot;Animal: jump&quot;);&#125;+ (void)name &#12...
+            load基本使用load方法是runtime在加载类和分类的时候会调用，是在程序入口函数main之前调用，而且只会调用一次。
+通过代码验证一下本类的load方法调用。
+我们添加Panda继承Animal类，并添加Panda+One分类，分别重写+load方法。
+123Animal: loadPanda: loadPanda (One): load
+
+通过验证我们发现不仅调用了分类的load方法，而且调用了原类的load方法，这和上面我们验证的优先调用分类的方法的逻辑相冲突，到底为什么会调用原类的方法，我们通过底层的源码一探究竟。
+调用原理同样的我们从runtime的入口_objc_ini...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/05</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
+        <a class="abstract-title" href = "/2018/06/23/Cateory/" >
+            
+                <span>Category</span>
+        </a>
+        <div class="abstract-content">
+            Category的使用Category是Objective-C语言中提供的一种灵活的类扩展机制。
+使用方式如下：
+12345678910111213141516// 原封装@interface Animal : NSObject &#123;    int _name;&#125;- (void)cry;@end@implementation Animal- (void)cry &#123;    NSLog(@&quot;Animal: cry&quot;);&#125;@end
+
+1234567891011121314151617181920212223242526272829303...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -1001,9 +1036,20 @@ NSOperation需求一：用NSOperation实现三个线程任务A、B、C，它们�
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 25
+        Total : 26
         </div>
         <!-- search  -->
         
@@ -1063,12 +1109,17 @@ NSOperation需求一：用NSOperation实现三个线程任务A、B、C，它们�
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/05</span><a class="archive-post-title" href= "/2018/09/05/KvoAndKvc/" >KvoAndKvc</a>
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href= "/2018/09/05/KvoAndKvc/" >KVO、KVC</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2018/06/23/Cateory/" >Cateory的本质</a>
+            <span class="archive-post-date">07/05</span><a class="archive-post-title" href= "/2018/07/05/loadAndinitialize/" >load、initialize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2018/06/23/Cateory/" >Category</a>
         </li>
     
     

@@ -368,6 +368,33 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/05/19/AppStatus/" >
+            
+                <span>App的不同状态</span>
+        </a>
+        <div class="abstract-content">
+            对于iOS App来说，知道当前的状态是至关重要的，因为iOS对系统资源有着相当严格的限制，app在不同的状态下可执行的操作也是不同的。在当程序处于后台时，系统对app所能执行的操作做了严格的限制，以提高电池的使用时间和正在运行程序的用户体验。当在前后台切换app时，系统会发出相应的通知，在这些通知中可以改变app的操作。
+当你实现程序代码时，应该遵循下面这些建议：
+1.（必须）当发生状态转换时进行恰当的响应处理，如果不进行处理操作可能会导致数据的丢失和不好的用户体验。
+2.（必须）当app转入后台时，确保app所执行的操作是正确地被循序的操作（后台允许5中操作，详细见下面）
+3.（建议...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/05/19</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/04/16/arithmetic/" >
             
                 <span>算法基础</span>
@@ -594,31 +621,6 @@ UIWindow简介在iOS应用中，我们使用UIWindow和UIView来呈现界面。U
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/08/27</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/06/20/network-1/" >
-            
-                <span>断点下载与文件上传</span>
-        </a>
-        <div class="abstract-content">
-            本篇博文的所有网络操作的对象都是一张图片。
-普通下载使用NSURLSessionDownloadTask实现。代码如下：
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566@interface DownloadController ()&lt;NSURLSessionDownloadDelegate&gt;@endstatic NSString *const ImageURL = @&quot;...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/06/20</span>
             </div>
             <!-- tags  -->
             
@@ -1130,9 +1132,20 @@ UIWindow简介在iOS应用中，我们使用UIWindow和UIView来呈现界面。U
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 25
+        Total : 26
         </div>
         <!-- search  -->
         
@@ -1192,12 +1205,17 @@ UIWindow简介在iOS应用中，我们使用UIWindow和UIView来呈现界面。U
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/05</span><a class="archive-post-title" href= "/2018/09/05/KvoAndKvc/" >KvoAndKvc</a>
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href= "/2018/09/05/KvoAndKvc/" >KVO、KVC</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2018/06/23/Cateory/" >Cateory的本质</a>
+            <span class="archive-post-date">07/05</span><a class="archive-post-title" href= "/2018/07/05/loadAndinitialize/" >load、initialize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2018/06/23/Cateory/" >Category</a>
         </li>
     
     

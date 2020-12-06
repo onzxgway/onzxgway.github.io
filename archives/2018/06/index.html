@@ -357,11 +357,14 @@
     <article class="index-post">
         <a class="abstract-title" href = "/2018/06/23/Cateory/" >
             
-                <span>Cateory的本质</span>
+                <span>Category</span>
         </a>
         <div class="abstract-content">
-            Category的使用使用下面的这一段简单代码来分析：
-12345678910111213141516171819202122232425262728293031@interface Animal (One) &lt;NSCopying&gt;- (void)jump;+ (void)name;@property (nonatomic, assign) int age;@end@implementation Animal (One)- (void)jump &#123;    NSLog(@&quot;Animal: jump&quot;);&#125;+ (void)name &#12...
+            Category的使用Category是Objective-C语言中提供的一种灵活的类扩展机制。
+使用方式如下：
+12345678910111213141516// 原封装@interface Animal : NSObject &#123;    int _name;&#125;- (void)cry;@end@implementation Animal- (void)cry &#123;    NSLog(@&quot;Animal: cry&quot;);&#125;@end
+
+1234567891011121314151617181920212223242526272829303...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -777,9 +780,20 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 25
+        Total : 26
         </div>
         <!-- search  -->
         
@@ -839,12 +853,17 @@
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/05</span><a class="archive-post-title" href= "/2018/09/05/KvoAndKvc/" >KvoAndKvc</a>
+            <span class="archive-post-date">09/05</span><a class="archive-post-title" href= "/2018/09/05/KvoAndKvc/" >KVO、KVC</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2018/06/23/Cateory/" >Cateory的本质</a>
+            <span class="archive-post-date">07/05</span><a class="archive-post-title" href= "/2018/07/05/loadAndinitialize/" >load、initialize</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/23</span><a class="archive-post-title" href= "/2018/06/23/Cateory/" >Category</a>
         </li>
     
     

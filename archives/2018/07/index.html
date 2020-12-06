@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2017/04/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2018/07/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,22 +355,23 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2017/04/08/Time-And-Date2/" >
+        <a class="abstract-title" href = "/2018/07/05/loadAndinitialize/" >
             
-                <span>时间与日期（下）</span>
+                <span>load、initialize</span>
         </a>
         <div class="abstract-content">
-            NSDateComponentsNSDateComponents类的作用是把日期拆分成一个一个的组件。一个日期是由年月日时分秒组成的，该类可以把日期拆分成单独的年、月、日、时、分、秒。通常是和NSCalendar类一起使用。
-初始化方法
-- (instancetype)init
+            load基本使用load方法是runtime在加载类和分类的时候会调用，是在程序入口函数main之前调用，而且只会调用一次。
+通过代码验证一下本类的load方法调用。
+我们添加Panda继承Animal类，并添加Panda+One分类，分别重写+load方法。
+123Animal: loadPanda: loadPanda (One): load
 
-默认的初始化方法
-123456789101112131415// 创建NSDateComponents对象，设置时间点NSDateComponents *components = [[NSDateComponents alloc] init];[components setEra:1];     // 时代[c...
+通过验证我们发现不仅调用了分类的load方法，而且调用了原类的load方法，这和上面我们验证的优先调用分类的方法的逻辑相冲突，到底为什么会调用原类的方法，我们通过底层的源码一探究竟。
+调用原理同样的我们从runtime的入口_objc_ini...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/04/08</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/05</span>
             </div>
             <!-- tags  -->
             
