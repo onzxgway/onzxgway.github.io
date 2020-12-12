@@ -360,9 +360,9 @@
                 <span>runtime(2)</span>
         </a>
         <div class="abstract-content">
-            消息机制Objective-C语言是运行时语言，消息机制是运行时机制中一个重要的组成部分。方法调用的本质就是发送消息。
-定义一个Person类，如下所示。
-12345678910111213141516171819202122232425262728@interface Person : NSObject@property (nonatomic, assign)NSUInteger age;- (NSString *)sayHello;- (NSString *)howOldAreYou:(NSString *)name;+ (NSString *)howOldAreYou:(NSStr...
+            消息机制Objective-C是运行时语言，消息机制是运行时机制中一个重要的组成部分。方法调用的本质就是发送消息。
+实现方式定义一个Person类，如下所示。
+12345678910111213141516171819202122232425262728@interface Person : NSObject@property (nonatomic, assign)NSUInteger age;- (NSString *)sayHello;- (NSString *)howOldAreYou:(NSString *)name;+ (NSString *)howOldAreYou:(NSS...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
@@ -479,6 +479,35 @@ RunLoop的概念一般来讲，一个线程一次只能执行一个任务，执�
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/12/07/UIScrollView/" >
+            
+                <span>UIScrollView、UITableView实现机制</span>
+        </a>
+        <div class="abstract-content">
+            UIScrollViewUIScrollView继承自UIView，它的作用是通过滑动来扩展边界。
+分析我们知道UIView的bounds属性的作用是以自身为参考坐标系，来描述自己的大小和位置。如下如所示：
+
+通过上图可知，修改控件自身bounds属性的origin值，内部的子控件的位置就会发生相应的变化。
+因为UIScrollView继承自UIView，所以它是利用了bounds属性的特点，来实现滑动的特性的。
+实现原理通过模拟系统UIScrollView，实现自定义的CustomScrollView控件，来了解UIScrollView的底层实现原理。
+1234567891011121...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/07</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/11/24/AFNetworking-Security/" >
             
                 <span>网络安全</span>
@@ -582,33 +611,6 @@ Serialization
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/05</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/06/23/Cateory/" >
-            
-                <span>Category</span>
-        </a>
-        <div class="abstract-content">
-            Category的使用Category是Objective-C语言中提供的一种灵活的类扩展机制。
-使用方式如下：
-12345678910111213141516// 原封装@interface Animal : NSObject &#123;    int _name;&#125;- (void)cry;@end@implementation Animal- (void)cry &#123;    NSLog(@&quot;Animal: cry&quot;);&#125;@end
-
-1234567891011121314151617181920212223242526272829303...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/06/23</span>
             </div>
             <!-- tags  -->
             
@@ -1034,9 +1036,22 @@ Serialization
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 26
+        Total : 27
         </div>
         <!-- search  -->
         
@@ -1083,6 +1098,11 @@ Serialization
     
     <div class="archive-year"> 2018 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/07</span><a class="archive-post-title" href= "/2018/12/07/UIScrollView/" >UIScrollView、UITableView实现机制</a>
+        </li>
     
     
         <li class="archive-post-item">
