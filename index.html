@@ -368,6 +368,32 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2020/01/23/DartAndSwift/" >
+            
+                <span>Dart、Swift</span>
+        </a>
+        <div class="abstract-content">
+            在学习Dart语言的过程中，发现很多语法点和Swift有异曲同工之妙，所以就顺便记录下，已便更好的理解掌握。
+打印、注释、分号打印Dart和Swift都用print函数，输出内容到console面板上。
+注释相同点：单行注释: 以//开始，所有在//和改行结尾之间的内容被编译器忽略。多行注释: 以/*开始，以*/结尾，所有在/*和*/之间的内容被编译器忽略，注意多行注释可以嵌套。文档注释: 以///或者/**开始。在调用时候，有提示信息。
+不同点：Dart中的文档注释，除非用中括号括起来，否则Dart编译器会忽略所有文本。使用中括号可以引用类、方法、字段、顶级变量、函数、和参数。括号中的...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/01/23</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/11/02/runtime3/" >
             
                 <span>runtime(2)</span>
@@ -595,35 +621,6 @@ Serialization
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/05</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/07/05/loadAndinitialize/" >
-            
-                <span>load、initialize</span>
-        </a>
-        <div class="abstract-content">
-            load基本使用load方法是runtime在加载类和分类的时候会调用，是在程序入口函数main之前调用，而且只会调用一次。
-通过代码验证一下本类的load方法调用。
-我们添加Panda继承Animal类，并添加Panda+One分类，分别重写+load方法。
-123Animal: loadPanda: loadPanda (One): load
-
-通过验证我们发现不仅调用了分类的load方法，而且调用了原类的load方法，这和上面我们验证的优先调用分类的方法的逻辑相冲突，到底为什么会调用原类的方法，我们通过底层的源码一探究竟。
-调用原理同样的我们从runtime的入口_objc_ini...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/05</span>
             </div>
             <!-- tags  -->
             
@@ -1161,9 +1158,20 @@ Serialization
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 27
+        Total : 28
         </div>
         <!-- search  -->
         
@@ -1173,6 +1181,20 @@ Serialization
     
     
     
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2020/01/23/DartAndSwift/" >Dart、Swift</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">

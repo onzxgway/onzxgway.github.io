@@ -355,6 +355,35 @@
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2018/07/05/loadAndinitialize/" >
+            
+                <span>load、initialize</span>
+        </a>
+        <div class="abstract-content">
+            load基本使用load方法是runtime在加载类和分类的时候会调用，是在程序入口函数main之前调用，而且只会调用一次。
+通过代码验证一下本类的load方法调用。
+我们添加Panda继承Animal类，并添加Panda+One分类，分别重写+load方法。
+123Animal: loadPanda: loadPanda (One): load
+
+通过验证我们发现不仅调用了分类的load方法，而且调用了原类的load方法，这和上面我们验证的优先调用分类的方法的逻辑相冲突，到底为什么会调用原类的方法，我们通过底层的源码一探究竟。
+调用原理同样的我们从runtime的入口_objc_ini...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/07/05</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2018/06/23/Cateory/" >
             
                 <span>Category</span>
@@ -586,31 +615,6 @@ UIWindow简介在iOS应用中，我们使用UIWindow和UIView来呈现界面。U
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/10/11</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2017/09/18/memory-management-2/" >
-            
-                <span>内存管理（下）</span>
-        </a>
-        <div class="abstract-content">
-            在开始之前先思考一个问题，就是为什么需要内存管理？iOS系统会在程序退出以后，回收其所有内存，那么开发者还有必要在程序运行过程中去管理内存吗？答案是肯定的，1，程序运行的过程中，如果不去管理内存，可能会发生内存泄露，而内存泄露会导致程序运行出错甚至直接崩溃闪退。虽然有些情况下的内存泄露，并不会导致上述状况，2，严格的内存管理可以让应用更加合理、高效的使用有限的硬件条件，提高应用程序的性能。
-内存泄露什么是内存泄露内存泄露指一个对象或者变量在使用完成后没有及时释放掉，一直占用着内存，直到应用停止。
-哪些情况下会发生内存泄露iOS开发，不管是Objective-C语言还是Swift语言，其内...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2017/09/18</span>
             </div>
             <!-- tags  -->
             
@@ -1051,9 +1055,20 @@ UIWindow简介在iOS应用中，我们使用UIWindow和UIView来呈现界面。U
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 27
+        Total : 28
         </div>
         <!-- search  -->
         
@@ -1063,6 +1078,20 @@ UIWindow简介在iOS应用中，我们使用UIWindow和UIView来呈现界面。U
     
     
     
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/23</span><a class="archive-post-title" href= "/2020/01/23/DartAndSwift/" >Dart、Swift</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
     
     <div class="archive-year"> 2019 </div>
     <ul class="year-list">
