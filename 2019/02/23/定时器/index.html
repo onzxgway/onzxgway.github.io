@@ -20,24 +20,22 @@
     <meta name="keywords" content="iOS,hexo-theme,hexo-blog">
     
     <meta name="description" content="">
-    <meta name="description" content="NSObject类提供了两个用于拷贝的方法：- (id)copy 和- (id)mutableCopy，这两个方法都可以复制已有对象生成副本。 由于Objective-C中几乎所有的类都继承自NSObject，所以类中都有copy和mutableCopy两个方法，那么是否就意味着对象可以直接调用这两个方法进行拷贝了呢？  定义一个AMPerson类继承自NSObject 进行测试，代码如下：  1">
+    <meta name="description" content="NSTimerNSTimer是iOS开发当中最常用的定时器。其底层是通过Runloop来实现的，大部分情况下比较准确。但是当前循环耗时操作较多时，会出现延迟问题。同时，也受所加入的RunLoop的Mode影响。 创建之后手动添加到哪个线程的RunLoop中，就运行在哪个线程。 1234567+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对象拷贝">
-<meta property="og:url" content="http://onzxgway.github.io/2018/02/08/object-copy/index.html">
+<meta property="og:title" content="iOS中的定时器">
+<meta property="og:url" content="http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/index.html">
 <meta property="og:site_name" content="朱献国的博客">
-<meta property="og:description" content="NSObject类提供了两个用于拷贝的方法：- (id)copy 和- (id)mutableCopy，这两个方法都可以复制已有对象生成副本。 由于Objective-C中几乎所有的类都继承自NSObject，所以类中都有copy和mutableCopy两个方法，那么是否就意味着对象可以直接调用这两个方法进行拷贝了呢？  定义一个AMPerson类继承自NSObject 进行测试，代码如下：  1">
+<meta property="og:description" content="NSTimerNSTimer是iOS开发当中最常用的定时器。其底层是通过Runloop来实现的，大部分情况下比较准确。但是当前循环耗时操作较多时，会出现延迟问题。同时，也受所加入的RunLoop的Mode影响。 创建之后手动添加到哪个线程的RunLoop中，就运行在哪个线程。 1234567+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti">
 <meta property="og:locale">
-<meta property="og:image" content="http://onzxgway.github.io/2018/02/08/object-copy/object-copy1.png">
-<meta property="article:published_time" content="2018-02-08T12:38:40.000Z">
-<meta property="article:modified_time" content="2020-11-09T10:01:03.517Z">
+<meta property="article:published_time" content="2019-02-23T00:30:43.000Z">
+<meta property="article:modified_time" content="2021-03-23T13:59:33.385Z">
 <meta property="article:author" content="朱献国">
 <meta property="article:tag" content="iOS,Objective-C,Swift,OC,朱献国">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://onzxgway.github.io/2018/02/08/object-copy/object-copy1.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     
-    <title>对象拷贝 · 朱献国的博客</title>
+    <title>iOS中的定时器 · 朱献国的博客</title>
     <style type="text/css">
     @font-face {
         font-family: 'Oswald-Regular';
@@ -232,7 +230,7 @@
                 <a href="/" >Hello, World!</a>
             </div>
             <div class="post-title">
-                <a href="#" class="post-name">对象拷贝</a>
+                <a href="#" class="post-name">iOS中的定时器</a>
             </div>
     </div>
     
@@ -262,7 +260,7 @@ height:50vh;
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            对象拷贝
+            iOS中的定时器
             <!-- 404 -->
             
         </h1>
@@ -281,12 +279,12 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.8k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <span class="post-intro-calander iconfont-archer">&#xe676;</span>
-                    <span class="post-intro-time">2018/02/08</span>
+                    <span class="post-intro-time">2019/02/23</span>
                     
                     <span id="busuanzi_container_page_pv" class="busuanzi-pv">
                         <span class="iconfont-archer">&#xe602;</span>
@@ -410,74 +408,38 @@ height:50vh;
         <div class="container container-unloaded">
             <main class="main post-page">
     <article class="article-entry">
-        <p>NSObject类提供了两个用于拷贝的方法：- (id)copy 和- (id)mutableCopy，这两个方法都可以复制已有对象生成副本。</p>
-<p>由于Objective-C中几乎所有的类都继承自NSObject，所以类中都有copy和mutableCopy两个方法，那么是否就意味着对象可以直接调用这两个方法进行拷贝了呢？</p>
-<ul>
-<li>定义一个AMPerson类继承自NSObject 进行测试，代码如下：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AMPerson *p1 = [[AMPerson alloc] init];</span><br><span class="line">AMPerson *p2 = [p1 copy];</span><br></pre></td></tr></table></figure>
-<p>运行程序，发生崩溃，并输出以下错误信息：<br>-[AMPerson copyWithZone:]: unrecognized selector sent to instance 0x7bf5e880<br>错误信息意思是：AMPerson类中找不到copyWithZone:方法。</p>
-<ul>
-<li>把copy方法换成mutableCopy，</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AMPerson * p2 = [[AMPerson alloc] init];</span><br><span class="line">AMPerson *p2 = [p1 mutableCopy];</span><br></pre></td></tr></table></figure>
-<p>运行之后，依然发生崩溃，并输出以下错误信息：<br>-[AMPerson mutableCopyWithZone:]: unrecognized selector sent to instance 0x7a2415f0<br>错误信息意思是：AMPerson类中找不到mutableCopyWithZone:方法。</p>
-<p>由以上错误可知：拷贝操作表面是调用copy和mutableCopy方法，其实底层是调用对象自身的copyWithZone和mutableCopyWithZone方法来完成实际的复制工作。<br>copy返回实际上就是copyWithZone:方法的返回值，mutableCopy与mutableCopyWithZone:方法也是同样的道理。</p>
-<p>由该例就引出了下面的讨论内容了。就是对象具体要满足什么条件，才可以被复制。</p>
-<h2 id="自定义对象"><a href="#自定义对象" class="headerlink" title="自定义对象"></a>自定义对象</h2><p>要想自定义对象可以复制，那么该类就必须</p>
-<p>一，遵守NSCopying 或 NSMutableCopying协议。<br>二，实现协议中copyWithZone或者mutableCopyWithZone方法。</p>
-<p>所以为了让AMPerson类能够复制自身，我们需要让AMPerson遵守NSCopying协议，实现copyWithZone:方法。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@interface AMPerson: NSObject &lt;NSCopying&gt;</span><br><span class="line"></span><br><span class="line">@property (copy,nonatomic)NSString *name;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation AMPerson</span><br><span class="line"></span><br><span class="line">- (id)copyWithZone:(NSZone *)zone &#123;</span><br><span class="line"></span><br><span class="line"> AMPerson *p = [[[self class] allocWithZone:zone] init];</span><br><span class="line"> p.name = [self.name copy];</span><br><span class="line"> <span class="built_in">return</span> p;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+        <h2 id="NSTimer"><a href="#NSTimer" class="headerlink" title="NSTimer"></a>NSTimer</h2><p>NSTimer是iOS开发当中最常用的定时器。其底层是通过Runloop来实现的，大部分情况下比较准确。但是当前循环耗时操作较多时，会出现延迟问题。同时，也受所加入的RunLoop的Mode影响。</p>
+<p>创建之后手动添加到哪个线程的RunLoop中，就运行在哪个线程。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;</span><br><span class="line"></span><br><span class="line">+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti invocation:(NSInvocation *)invocation repeats:(BOOL)yesOrNo;</span><br><span class="line"></span><br><span class="line">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>注意：在即RunLoop的UITrackingMode下，定时器会失效。解决办法即将定时器加到RunLoop的commonModes上即可。</p>
+<p>在哪个线程创建就会被自动加入到哪个线程的RunLoop中，就运行在哪个线程。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+ (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti invocation:(NSInvocation *)invocation repeats:(BOOL)yesOrNo;</span><br><span class="line"></span><br><span class="line">+ (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>运行代码</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AMPerson *p1 = [[AMPerson alloc] init];</span><br><span class="line">AMPerson *p2 = [p1 copy];</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">&quot;p1 = %p,p2 = %p&quot;</span>, p1, p2);</span><br></pre></td></tr></table></figure>
-<p>log信息如下：<br>p1 = 0x7969cc40,p2 = 0x7969c6e0<br>结果表明：p1和p2是两个地址不同的对象，复制操作成功。</p>
-<h2 id="系统对象"><a href="#系统对象" class="headerlink" title="系统对象"></a>系统对象</h2><p>copy方法用于复制对象的副本，通常来说，copy方法总是返回对象的不可修改副本，即使对象本身是可修改的。例如，NSMutableString调用copy方法，将会返回不可修改的字符串对象。</p>
-<p>mutableCopy方法用于复制对象的可变副本，通常来说，mutableCopy方法总是返回对象可修改的副本，即使被复制的对象本身是不可修改的。例如，程序调用NSString的mutableCopy方法，将会返回一个NSMutableString对象。</p>
-<p>下图详细列出了常用的NSString、NSMutableString、NSArray、NSMutableArray、NSDictionary、NSMutableDictionary等调用copy与mutableCopy方法后的结果。</p>
-<p><img src="/2018/02/08/object-copy/object-copy1.png" alt="系统对象复制"></p>
-<blockquote>
-<p>深复制与浅复制<br>对象拷贝有两种方式：浅拷贝和深拷贝。浅拷贝，并不拷贝对象本身，仅仅是拷贝指向对象的指针；深拷贝是直接拷贝整个对象内容到另一块内存中。<br>再简单些说：浅拷贝就是指针拷贝，深拷贝就是内容拷贝。</p>
-</blockquote>
-<h2 id="多层数组"><a href="#多层数组" class="headerlink" title="多层数组"></a>多层数组</h2><p>在多层数组中，对第一层进行内容拷贝，其它层进行指针拷贝，这种情况是属于深复制，还是浅复制？</p>
-<p>如下所示</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AMPerson *p1 = [[AMPerson alloc] init];</span><br><span class="line">AMPerson *p2 = [[AMPerson alloc] init];</span><br><span class="line">AMPerson *p3 = [[AMPerson alloc] init];</span><br><span class="line"></span><br><span class="line">NSArray *ps = @[p1, p2, p3];</span><br><span class="line">NSArray *psCopy = [ps mutableCopy]; // 复制</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">&quot;p = %p, pCopy = %p&quot;</span>, ps, psCopy);</span><br><span class="line">NSLog(@<span class="string">&quot;p = %p, pCopy = %p&quot;</span>, ps[0], psCopy[0]); </span><br></pre></td></tr></table></figure>
-<p>log信息如下：<br>p = 0x6000039f3ab0, pCopy = 0x6000039f3840<br>p = 0x6000035ac9b0, pCopy = 0x6000035ac9b0</p>
-<p>结果表明：数组复制只是单单对于数组对象本身而言是深复制，而数组的成员对象默认仍然是浅拷贝的。我们称之为单层深复制。</p>
-<p>那么要想实现完全深复制该怎么办呢？ 尤其是当该对象包含大量的指针类型的实例变量时，如果某些实例变量里再次包含指针类型的实例变量，那么实现完全深复制会更加复杂。上面的深复制就是因为集合对象中可能会包含指针类型的实例变量，从而导致深复制不完全。</p>
-<p>解决方法很简单，复制的代码换成NSArray *pCopy = [[NSMutableArray alloc] initWithArray:p copyItems:YES]即可。</p>
-<p>如下所示</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AMPerson *p1 = [[AMPerson alloc] init];</span><br><span class="line">AMPerson *p2 = [[AMPerson alloc] init];</span><br><span class="line">AMPerson *p3 = [[AMPerson alloc] init];</span><br><span class="line"></span><br><span class="line">NSArray *ps = @[p1, p2, p3];</span><br><span class="line">NSArray *psCopy = [[NSMutableArray alloc] initWithArray:ps copyItems:YES];//复制</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">&quot;p = %p, pCopy = %p&quot;</span>, ps, psCopy);</span><br><span class="line">NSLog(@<span class="string">&quot;p = %p, pCopy = %p&quot;</span>, ps[0], psCopy[0]);</span><br></pre></td></tr></table></figure>
-<p>log信息如下：<br>p = 0x600003dae190, pCopy = 0x600003dae3d0<br>p = 0x6000031e42a0, pCopy = 0x6000031e42f0</p>
-<p>结果表明这次的复制是 完全深复制。不仅仅复制了第一层的数组对象，也复制了数组内部的指针类型的实例变量。当然内部的实例变量要遵守NSCoping协议。</p>
-<h3 id="copy修饰属性"><a href="#copy修饰属性" class="headerlink" title="copy修饰属性"></a>copy修饰属性</h3><p>上面介绍完了copy相关的知识点，那么趁热打铁了解一下为什么字符串的属性，要用copy修饰。</p>
-<p>介绍之前，先回忆一下属性修饰符都有哪些：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MRC：</span><br><span class="line"></span><br><span class="line">assign：基本数据类型（当出现循环引用时，也可用assign）</span><br><span class="line">retain：除Block和NSString外的其他对象</span><br><span class="line">copy：一般用于NSString和Block</span><br><span class="line"></span><br><span class="line">ARC：</span><br><span class="line"></span><br><span class="line">strong：默认</span><br><span class="line">weak：多用于ui和解决循环引用</span><br><span class="line">copy：用于NSString和Block</span><br><span class="line">assign：非OC对象</span><br></pre></td></tr></table></figure>
+<p>NSTimer定时器设置了延时之后，如果需要让它立刻执行，需要使用fire方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)fire;</span><br></pre></td></tr></table></figure>
 
-<p>NSString属于OC对象，我们先不使用Copy修饰，在ARC模式下，声明的属性默认是strong修饰，接下来就演示strong修饰NSString的效果。</p>
-<p>先定义一个AMPerson类，如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@interface AMPerson: NSObject</span><br><span class="line">@property (strong, nonatomic)NSString *name;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
-<p>在控制器中的viewDidLoad方法中执行如下代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AMPerson *p = [[AMPerson alloc] init];</span><br><span class="line">NSMutableString *str = [NSMutableString string];</span><br><span class="line">[str appendString:@<span class="string">&quot;anmav&quot;</span>];</span><br><span class="line">p.name = str;</span><br><span class="line">[str appendString:@<span class="string">&quot;yc&quot;</span>];</span><br><span class="line">NSLog(@<span class="string">&quot;%@&quot;</span>,p.name);</span><br></pre></td></tr></table></figure>
-<p>打印结果为：anmavyc</p>
-<p>结果分析：如果使用strong修饰NSString类型属性，p.name 指向可变字符串对象的地址，当可变字符串内容发生变化时，p.name相对应的值也发生变化。</p>
-<p>使用copy修饰后，将可变字符串拷贝一份，重新开辟内存空间，外部修改mutableString的值，不会对p.name造成影响。</p>
-<p>刚刚使用了NSMutableString(可变字符串)，对mutableString执行copy操作，属于深拷贝，所以开辟了新的内存空间，如果使用的是NSString(不可变内存)，对NSString进行copy属于浅拷贝,不会开辟新的内存空间，是不是就不会出现这个问题了呢?</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AMPerson *p = [[AMPerson alloc] init];</span><br><span class="line">NSString *str = [NSString string];</span><br><span class="line">str = @<span class="string">&quot;anmav&quot;</span>;</span><br><span class="line">p.name = str;</span><br><span class="line">str = @<span class="string">&quot;yc&quot;</span>;</span><br><span class="line">NSLog(@<span class="string">&quot;%@&quot;</span>,p.name);</span><br></pre></td></tr></table></figure>
-<p>打印结果为：anmav</p>
-<p>将之前的可变字符串变为不可变字符串，因为NSString不支持append添加操作，我这里的两次str赋值操作，其实是让str重新指向了一片内存空间，并不是修改了str原本内存中的值。</p>
-<p>OC中对象即指针，实际上存储的是内存地址，p.name = str; 实际是将str存储的@”xiaoming”这块地址给了p.name，p.name还指向着@”xiaoming”)。</p>
-<p>所以改变str的指向后，p.name的指向并没有改变,输出没有受到影响。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对于对象的深复制的概念没有必要那么纠结，只要我们理解了复制的本质，并且运用到我们的业务场景，选择我们想要的复制方式就可以。最主要的还是理解本质并且学会使用。</p>
+<p>NSTimer定时器的释放一定要先将其终止，而后才能销毁对象</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[timer invalidate];</span><br><span class="line">timer = nil;</span><br></pre></td></tr></table></figure>
 
+<h2 id="CADisplayLink"><a href="#CADisplayLink" class="headerlink" title="CADisplayLink"></a>CADisplayLink</h2><p>CADisplayLink是基于屏幕刷新的周期，所以其一般很准时，默认每秒刷新60次。其本质也是通过RunLoop，所以不难看出，当RunLoop选择其他模式或耗时操作过多时，仍旧会造成延迟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+ (CADisplayLink *)displayLinkWithTarget:(id)target selector:(SEL)sel;</span><br><span class="line"></span><br><span class="line">- (void)addToRunLoop:(NSRunLoop *)runloop forMode:(NSRunLoopMode)mode;</span><br><span class="line"></span><br><span class="line">- (void)removeFromRunLoop:(NSRunLoop *)runloop forMode:(NSRunLoopMode)mode;</span><br><span class="line"></span><br><span class="line">- (void)invalidate;</span><br><span class="line"></span><br><span class="line">@property(nonatomic) NSInteger preferredFramesPerSecond;</span><br></pre></td></tr></table></figure>
+
+<p>CADisplayLink是以屏幕刷新频率将内容绘制到屏幕上的定时器，适合做UI的不停重绘，动画或视频的渲染等。<br>一旦CADisplayLink以特定的模式添加到RunLoop中，每当屏幕需要刷新的时候，RunLoop就会调用CADisplayLink绑定的target上的selector方法，则target就可获取CADisplayLink的每次调用的时间戳，用于准备下一帧显示的数据。可用于动画或视频。使用CADisplayLink同样要注意循环引用的问题。</p>
+<p>在日常开发中，适当使用CADisplayLink甚至有优化作用。比如对于需要动态计算进度的进度条，由于进度反馈主要是为了UI更新，那么当计算进度的频率超过帧数时，就造成了很多无谓的计算。如果将计算进度的方法绑定到CADisplayLink上来调用，则只在每次屏幕刷新时计算进度，优化了性能。MBProcessHUD则是利用了这一特性。</p>
+<h2 id="GCDTimer"><a href="#GCDTimer" class="headerlink" title="GCDTimer"></a>GCDTimer</h2><p>GCD定时器实际上是使用了dispatch源(dispatch source)，dispatch源监听系统内核对象并处理，通过系统级调用，更加精准。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@implementation viewController &#123;</span><br><span class="line">    dispatch_source_t timer;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    // 创建定时器对象  gcd可以指定队列：即可以在主队列也可以在子队列上执行任务</span><br><span class="line">    timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));</span><br><span class="line">        </span><br><span class="line">    // 参数： 1 定时器  2 任务开始时间  3任务的间隔  4可接受的误差时间，设置0即不允许出现误差</span><br><span class="line">     dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, 1.0*NSEC_PER_SEC, 0.0*NSEC_PER_SEC);</span><br><span class="line"></span><br><span class="line">    // 设置定时器任务</span><br><span class="line">    dispatch_source_set_event_handler(timer, ^&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // 启动任务，GCD计时器创建后需要手动启动</span><br><span class="line">    dispatch_resume(timer);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)invalidate &#123;</span><br><span class="line">	// 暂停</span><br><span class="line">	dispatch_suspend(timer);</span><br><span class="line">	// 销毁</span><br><span class="line">	dispatch_cancel(timer);</span><br><span class="line">	timer = nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>GCD Timer的封装</p>
+<p>1、用一个字典存储定时器，在取消的时候，根据定时器的key找到相应的定时器<br>2、多线程会造成字典不安全，对字典读写操作的时候需要加锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">@interface GCDTimer : NSObject</span><br><span class="line"></span><br><span class="line">+ (NSString *)execTask:(void(^)(void))task</span><br><span class="line">           start:(NSTimeInterval)start</span><br><span class="line">        interval:(NSTimeInterval)interval</span><br><span class="line">         repeats:(BOOL)repeats</span><br><span class="line">           async:(BOOL)async;</span><br><span class="line"></span><br><span class="line">+ (NSString *)execTask:(id)target</span><br><span class="line">              selector:(SEL)selector</span><br><span class="line">                 start:(NSTimeInterval)start</span><br><span class="line">              interval:(NSTimeInterval)interval</span><br><span class="line">               repeats:(BOOL)repeats</span><br><span class="line">                 async:(BOOL)async;</span><br><span class="line"></span><br><span class="line">+ (void)cancelTask:(NSString *)name;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation GCDTimer</span><br><span class="line"></span><br><span class="line">static NSMutableDictionary *timers_;</span><br><span class="line">dispatch_semaphore_t semaphore_;</span><br><span class="line"></span><br><span class="line">+ (void)initialize &#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        timers_ &#x3D; [NSMutableDictionary dictionary];</span><br><span class="line">        semaphore_ &#x3D; dispatch_semaphore_create(1);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSString *)execTask:(void (^)(void))task start:(NSTimeInterval)start interval:(NSTimeInterval)interval repeats:(BOOL)repeats async:(BOOL)async</span><br><span class="line">&#123;</span><br><span class="line">    if (!task || start &lt; 0 || (interval &lt;&#x3D; 0 &amp;&amp; repeats)) return nil;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 队列</span><br><span class="line">    dispatch_queue_t queue &#x3D; async ? dispatch_get_global_queue(0, 0) : dispatch_get_main_queue();</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 创建定时器</span><br><span class="line">    dispatch_source_t timer &#x3D; dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 设置时间</span><br><span class="line">    dispatch_source_set_timer(timer,</span><br><span class="line">                              dispatch_time(DISPATCH_TIME_NOW, start * NSEC_PER_SEC),</span><br><span class="line">                              interval * NSEC_PER_SEC, 0);</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    dispatch_semaphore_wait(semaphore_, DISPATCH_TIME_FOREVER);</span><br><span class="line">    &#x2F;&#x2F; 定时器的唯一标识</span><br><span class="line">    NSString *name &#x3D; [NSString stringWithFormat:@&quot;%zd&quot;, timers_.count];</span><br><span class="line">    &#x2F;&#x2F; 存放到字典中</span><br><span class="line">    timers_[name] &#x3D; timer;</span><br><span class="line">    dispatch_semaphore_signal(semaphore_);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 设置回调</span><br><span class="line">    dispatch_source_set_event_handler(timer, ^&#123;</span><br><span class="line">        task();</span><br><span class="line">        </span><br><span class="line">        if (!repeats) &#123; &#x2F;&#x2F; 不重复的任务</span><br><span class="line">            [self cancelTask:name];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 启动定时器</span><br><span class="line">    dispatch_resume(timer);</span><br><span class="line">    </span><br><span class="line">    return name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSString *)execTask:(id)target selector:(SEL)selector start:(NSTimeInterval)start interval:(NSTimeInterval)interval repeats:(BOOL)repeats async:(BOOL)async</span><br><span class="line">&#123;</span><br><span class="line">    if (!target || !selector) return nil;</span><br><span class="line">    </span><br><span class="line">    return [self execTask:^&#123;</span><br><span class="line">        if ([target respondsToSelector:selector]) &#123;</span><br><span class="line">#pragma clang diagnostic push</span><br><span class="line">#pragma clang diagnostic ignored &quot;-Warc-performSelector-leaks&quot;</span><br><span class="line">            [target performSelector:selector];</span><br><span class="line">#pragma clang diagnostic pop</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; start:start interval:interval repeats:repeats async:async];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (void)cancelTask:(NSString *)name</span><br><span class="line">&#123;</span><br><span class="line">    if (name.length &#x3D;&#x3D; 0) return;</span><br><span class="line">    </span><br><span class="line">    dispatch_semaphore_wait(semaphore_, DISPATCH_TIME_FOREVER);</span><br><span class="line">    </span><br><span class="line">    dispatch_source_t timer &#x3D; timers_[name];</span><br><span class="line">    if (timer) &#123;</span><br><span class="line">        dispatch_source_cancel(timer);</span><br><span class="line">        [timers_ removeObjectForKey:name];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dispatch_semaphore_signal(semaphore_);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
     </article>
     <!-- license  -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="http://onzxgway.github.io">朱献国</a>
-            <p>原文链接：<a href="http://onzxgway.github.io/2018/02/08/object-copy/">http://onzxgway.github.io/2018/02/08/object-copy/</a>
-            <p>发表日期：<a href="http://onzxgway.github.io/2018/02/08/object-copy/">February 8th 2018, 8:38:40 pm</a>
-            <!-- <p>更新日期：<a href="http://onzxgway.github.io/2018/02/08/object-copy/">November 9th 2020, 6:01:03 pm</a> -->
+            <p>原文链接：<a href="http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/">http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/</a>
+            <p>发表日期：<a href="http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/">February 23rd 2019, 8:30:43 am</a>
+            <!-- <p>更新日期：<a href="http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/">March 23rd 2021, 9:59:33 pm</a> -->
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -486,16 +448,16 @@ height:50vh;
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/2018/03/16/UIWebView/" title= "基于UIWebView的混合编程">
-                    <div class="nextTitle">基于UIWebView的混合编程</div>
+                <a href= "/2019/03/04/RunLoop/" title= "RunLoop">
+                    <div class="nextTitle">RunLoop</div>
                 </a>
             
         </li>
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2018/01/16/Multi-threading-2/" title= "iOS并发编程进阶">
-                    <div class="prevTitle">iOS并发编程进阶</div>
+                <a href= "/2019/01/18/DesignPatterns/" title= "设计模式">
+                    <div class="prevTitle">设计模式</div>
                 </a>
             
         </li>
@@ -618,7 +580,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">自定义对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.</span> <span class="toc-text">系统对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E5%B1%82%E6%95%B0%E7%BB%84"><span class="toc-number">3.</span> <span class="toc-text">多层数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#copy%E4%BF%AE%E9%A5%B0%E5%B1%9E%E6%80%A7"><span class="toc-number">3.1.</span> <span class="toc-text">copy修饰属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSTimer"><span class="toc-number">1.</span> <span class="toc-text">NSTimer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CADisplayLink"><span class="toc-number">2.</span> <span class="toc-text">CADisplayLink</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GCDTimer"><span class="toc-number">3.</span> <span class="toc-text">GCDTimer</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>

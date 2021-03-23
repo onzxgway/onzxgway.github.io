@@ -494,6 +494,31 @@ RunLoop的概念一般来讲，一个线程一次只能执行一个任务，执�
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/" >
+            
+                <span>iOS中的定时器</span>
+        </a>
+        <div class="abstract-content">
+            NSTimerNSTimer是iOS开发当中最常用的定时器。其底层是通过Runloop来实现的，大部分情况下比较准确。但是当前循环耗时操作较多时，会出现延迟问题。同时，也受所加入的RunLoop的Mode影响。
+创建之后手动添加到哪个线程的RunLoop中，就运行在哪个线程。
+1234567+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;+...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/23</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2019/01/18/DesignPatterns/" >
             
                 <span>设计模式</span>
@@ -595,32 +620,6 @@ Serialization
             <!-- date  -->
             <div class="abstract-date">
                 <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/10/22</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2018/09/05/KvoAndKvc/" >
-            
-                <span>KVO、KVC</span>
-        </a>
-        <div class="abstract-content">
-            KVOKVO的使用KVO(Key Value Observing)，键值监听，用于监听对象的属性值的改变。使用方式如下：
-12345678910// 被监听对象@interface Animal : NSObject@property(nonatomic, copy) NSString *name;@end@implementation Animal@end
-
-123456789101112131415161718- (void)viewDidLoad &#123;    [super viewDidLoad];        Animal *animal = [[Animal allo...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/09/05</span>
             </div>
             <!-- tags  -->
             
@@ -1169,9 +1168,22 @@ Serialization
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 28
+        Total : 29
         </div>
         <!-- search  -->
         
@@ -1217,6 +1229,11 @@ Serialization
     
         <li class="archive-post-item">
             <span class="archive-post-date">03/04</span><a class="archive-post-title" href= "/2019/03/04/RunLoop/" >RunLoop</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/" >iOS中的定时器</a>
         </li>
     
     

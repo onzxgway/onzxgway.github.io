@@ -22,7 +22,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="朱献国的博客">
-<meta property="og:url" content="http://onzxgway.github.io/archives/2018/04/index.html">
+<meta property="og:url" content="http://onzxgway.github.io/archives/2019/02/index.html">
 <meta property="og:site_name" content="朱献国的博客">
 <meta property="og:locale">
 <meta property="article:author" content="朱献国">
@@ -355,22 +355,19 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2018/04/16/arithmetic/" >
+        <a class="abstract-title" href = "/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/" >
             
-                <span>算法基础</span>
+                <span>iOS中的定时器</span>
         </a>
         <div class="abstract-content">
-            算法三原则1，有穷性。    能在有限的步奏，有限的时间内完成。2，确定性。    对相同的输入，产生唯一的输出，没有歧义。3，可行性。    算法是可行的，在当前设备，经济水平等条件下是可用的。
-算法分析1，时间复杂度。    * 大O：最坏情况下的时间复杂度。（如快速排序：O(n^2)，期望nlogn）    * 忽略常数，用来描述随着问题规模的增长，所需时间增长的速率/数量级。 如：1-k -&gt; O(1)，k是一个常数。
-2，空间复杂度。    * 同时间复杂度。
-算法极限对于摸一个问题，算法能做到的也是有极限的，例如：通常基于遍历的算法，复杂度必定大于等于O(n)。
-
-不需...
+            NSTimerNSTimer是iOS开发当中最常用的定时器。其底层是通过Runloop来实现的，大部分情况下比较准确。但是当前循环耗时操作较多时，会出现延迟问题。同时，也受所加入的RunLoop的Mode影响。
+创建之后手动添加到哪个线程的RunLoop中，就运行在哪个线程。
+1234567+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;+...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/04/16</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/02/23</span>
             </div>
             <!-- tags  -->
             
