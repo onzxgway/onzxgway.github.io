@@ -28,7 +28,7 @@
 <meta property="og:description" content="NSTimerNSTimer是iOS开发当中最常用的定时器。其底层是通过Runloop来实现的，大部分情况下比较准确。但是当前循环耗时操作较多时，会出现延迟问题。同时，也受所加入的RunLoop的Mode影响。 创建之后手动添加到哪个线程的RunLoop中，就运行在哪个线程。 1234567+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti">
 <meta property="og:locale">
 <meta property="article:published_time" content="2019-02-23T00:30:43.000Z">
-<meta property="article:modified_time" content="2021-03-23T13:59:33.385Z">
+<meta property="article:modified_time" content="2021-03-23T14:12:50.404Z">
 <meta property="article:author" content="朱献国">
 <meta property="article:tag" content="iOS,Objective-C,Swift,OC,朱献国">
 <meta name="twitter:card" content="summary">
@@ -279,7 +279,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.4k</span>阅读时长: <span class="post-count reading-time">6 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -421,6 +421,12 @@ height:50vh;
 <p>NSTimer定时器的释放一定要先将其终止，而后才能销毁对象</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[timer invalidate];</span><br><span class="line">timer = nil;</span><br></pre></td></tr></table></figure>
 
+<p>对于NSTimer，如何解除循环引用，有一种方式特地介绍一下。</p>
+<p>NSProxy是除了NSObject之外的另一个基类，是一个抽象类，只能继承它，重写其消息转发的方法，将消息转发给另一个对象。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">@interface WeakProxy : NSProxy</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithTarget:(id)target;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface WeakProxy ()</span><br><span class="line"></span><br><span class="line">@property (nonatomic, weak) id target;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation WeakProxy</span><br><span class="line"></span><br><span class="line">- (instancetype)initWithTarget:(id)target &#123;</span><br><span class="line">    self = [WeakProxy alloc];</span><br><span class="line">    self.target = target;</span><br><span class="line">    <span class="built_in">return</span> self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel &#123;</span><br><span class="line">    <span class="built_in">return</span> [self.target methodSignatureForSelector:sel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)forwardInvocation:(NSInvocation *)invocation &#123;</span><br><span class="line">    [invocation invokeWithTarget:self.target];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>除了重载消息转发机制的两个方法之外，NSProxy也没有其他功能了。即，使用NSProxy注定是用来转发消息的。</p>
+<p>NSProxy可以用来模拟多继承，proxy对象处理多个不同Class对象的消息。<br>继承自NSProxy的代理类会自动转发消息，而继承自NSObject的则不会，需要自行根据消息转发机制来进行处理。<br>NSObject的Category中的方法不能转发。</p>
 <h2 id="CADisplayLink"><a href="#CADisplayLink" class="headerlink" title="CADisplayLink"></a>CADisplayLink</h2><p>CADisplayLink是基于屏幕刷新的周期，所以其一般很准时，默认每秒刷新60次。其本质也是通过RunLoop，所以不难看出，当RunLoop选择其他模式或耗时操作过多时，仍旧会造成延迟。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+ (CADisplayLink *)displayLinkWithTarget:(id)target selector:(SEL)sel;</span><br><span class="line"></span><br><span class="line">- (void)addToRunLoop:(NSRunLoop *)runloop forMode:(NSRunLoopMode)mode;</span><br><span class="line"></span><br><span class="line">- (void)removeFromRunLoop:(NSRunLoop *)runloop forMode:(NSRunLoopMode)mode;</span><br><span class="line"></span><br><span class="line">- (void)invalidate;</span><br><span class="line"></span><br><span class="line">@property(nonatomic) NSInteger preferredFramesPerSecond;</span><br></pre></td></tr></table></figure>
 
@@ -439,7 +445,7 @@ height:50vh;
             <p>原文作者：<a href="http://onzxgway.github.io">朱献国</a>
             <p>原文链接：<a href="http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/">http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/</a>
             <p>发表日期：<a href="http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/">February 23rd 2019, 8:30:43 am</a>
-            <!-- <p>更新日期：<a href="http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/">March 23rd 2021, 9:59:33 pm</a> -->
+            <!-- <p>更新日期：<a href="http://onzxgway.github.io/2019/02/23/%E5%AE%9A%E6%97%B6%E5%99%A8/">March 23rd 2021, 10:12:50 pm</a> -->
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
